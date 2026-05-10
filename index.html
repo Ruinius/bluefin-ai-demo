@@ -3,10 +3,1018 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Demo</title>
+    <title>Bluefin Demo</title>
+    <style>
+        :root {
+            /* Color Palette */
+            --bg-color: #FAFAFA;
+            --surface-color: #FFFFFF;
+            --text-main: #1A1A1A;
+            --text-secondary: #666666;
+            --primary-light-blue: #00A8E8;
+            --primary-dark-blue: #003459;
+            --primary-violet: #7B2CBF;
+
+            /* Shadows & Effects */
+            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+
+            /* Scroll Timeline constraints */
+            --total-scroll-height: 20000px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            /* Give page height to scroll through */
+            height: var(--total-scroll-height);
+        }
+
+        /* The container that stays fixed to the viewport and hosts all scenes */
+        #app-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            pointer-events: none; /* Disable native interaction, driven purely by scroll */
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            will-change: opacity, transform;
+        }
+
+        /* Cursor animation wrapper */
+        #animated-cursor {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 168, 232, 0.5); /* Primary light blue */
+            border: 2px solid var(--primary-light-blue);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        #animated-cursor.clicking {
+            width: 20px;
+            height: 20px;
+            background-color: rgba(0, 168, 232, 0.8);
+        }
+
+        /* Intro Scenes Typography */
+        .intro-text {
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1.5;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+            opacity: 0;
+            position: absolute;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .intro-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: block;
+        }
+
+        /* Persistent Sidebar */
+        #sidebar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 100%;
+            background-color: var(--surface-color);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+            z-index: 10;
+            opacity: 0; /* Hidden initially */
+            will-change: opacity;
+        }
+
+        .sidebar-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-icon.logo {
+            background-color: var(--primary-light-blue);
+            color: white;
+            border-radius: var(--radius-full);
+            margin-bottom: auto; /* Push others down */
+        }
+
+        .sidebar-icon.avatar {
+            border-radius: var(--radius-full);
+            background-color: var(--primary-dark-blue);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .sidebar-icon.bottom {
+            margin-bottom: 1rem;
+        }
+
+        /* App Content Wrapper */
+        #app-content {
+            position: absolute;
+            left: 80px; /* Offset by sidebar */
+            top: 0;
+            width: calc(100% - 80px);
+            height: 100%;
+            z-index: 5;
+        }
+
+        /* Scene 1: Welcome */
+        #scene-app-1 {
+            background-color: var(--bg-color);
+        }
+
+        #welcome-text {
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--text-main);
+        }
+
+        /* Scene 2: Dashboard */
+        #scene-app-2 {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 4rem;
+            background-color: var(--bg-color);
+        }
+
+        .dashboard-section {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .search-bar {
+            background-color: var(--surface-color);
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-full);
+            width: 300px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .card-grid {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            width: 200px;
+            height: 120px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: auto;
+        }
+
+        .card-title {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            /* Hide scrollbar for premium look */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Scene 3: Research Workspace */
+        #scene-app-3 {
+            display: flex;
+            flex-direction: row;
+            background-color: var(--bg-color);
+            align-items: stretch;
+            justify-content: flex-start;
+        }
+
+        /* LHS: Agent Panel */
+        .agent-panel {
+            width: 350px;
+            background-color: var(--surface-color);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+        }
+
+        .model-selector-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .model-selector {
+            background-color: var(--bg-color);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .model-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--surface-color);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--radius-md);
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-hover);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0;
+        }
+
+        .model-option {
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .model-option:hover {
+            background-color: var(--bg-color);
+        }
+
+        .chat-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .chat-input-wrapper {
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            padding-right: 3rem;
+            font-size: 0.9rem;
+            resize: none;
+            height: 60px;
+        }
+
+        .pause-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary-dark-blue);
+            color: white;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* RHS: Content Panel */
+        .content-panel {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            background-color: var(--bg-color);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.5rem 0;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary-light-blue);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-light-blue);
+        }
+
+        .tab-content {
+            background-color: var(--surface-color);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(0,0,0,0.05);
+            padding: 2rem;
+            flex-grow: 1;
+            box-shadow: var(--shadow-subtle);
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Plan Tab specific */
+        .plan-item {
+            margin-bottom: 1rem;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .plan-item-edit {
+            color: var(--primary-violet);
+        }
+
+        /* Workspace Tab specific */
+        .file-tree {
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .folder {
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .file {
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+            opacity: 0; /* Hidden initially for animation */
+        }
+
+        /* Preview Tab specific (Google Docs style) */
+        .doc-preview {
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #000;
+        }
+        .doc-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .doc-text {
+            font-size: 14px;
+        }
+
+        /* Scene 4: Outro */
+        #scene-app-4 {
+            background-color: var(--bg-color);
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .outro-text {
+            font-size: 3rem;
+            font-weight: 500;
+            color: var(--primary-dark-blue);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            will-change: opacity, transform;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>AI Demo - Placeholder</h1>
-    <p>The code for the demo will go here. Check docs/design.md for specifications.</p>
+    <div id="app-container">
+        <!-- Pre-App Intro Scenes -->
+        <div id="scene-intro-1" class="scene">
+            <p class="intro-text" id="intro-text-1">
+                AI-native engineers have: Jules, Codex, Claude Code, OpenHands, and a dozen powerful tools.
+            </p>
+        </div>
+
+        <div id="scene-intro-2" class="scene">
+            <div class="intro-text" id="intro-text-2">
+                <p>AI-native business folks are saying:</p>
+                <span class="intro-quote">"What is a markdown? I need a Google Docs or at least a DOCX."</span>
+                <span class="intro-quote">"I just spent two hours trying to setting up a MCP server for Databricks. What is MCP?"</span>
+                <span class="intro-quote">"Holy crap, running Claude for a hour on my presentation costed $150."</span>
+            </div>
+        </div>
+
+        <!-- Main App Container -->
+        <div id="app-main" style="display: none;">
+            <!-- Persistent Sidebar -->
+            <div id="sidebar">
+                <div class="sidebar-icon logo">B</div>
+                <div class="sidebar-icon avatar">U</div>
+                <div class="sidebar-icon bottom">⚙</div>
+                <div class="sidebar-icon bottom" style="margin-bottom: 0;">⎋</div>
+            </div>
+
+            <div id="app-content">
+                <!-- Scene 1: Welcome -->
+                <div id="scene-app-1" class="scene">
+                    <h1 id="welcome-text">Welcome back <span id="user-name">Alex</span></h1>
+                </div>
+
+                <!-- Scene 2: Dashboard -->
+                <div id="scene-app-2" class="scene">
+                    <div class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h2 class="dashboard-title">Your workspaces</h2>
+                            <div class="search-bar">Search workspaces...</div>
+                        </div>
+                        <div class="card-grid">
+                            <div class="card">
+                                <span class="card-title">Q3 Financials</span>
+                            </div>
+                            <div class="card">
+                                <span class="card-title">Project Alpha</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <div class="dashboard-header">
+                            <h2 class="dashboard-title">Start a new workspace</h2>
+                        </div>
+                        <div class="carousel">
+                            <div class="card">
+                                <div class="card-icon">＋</div>
+                                <span class="card-title">Blank space</span>
+                            </div>
+                            <div class="card" id="card-research">
+                                <div class="card-icon" style="color: var(--primary-light-blue);">🔍</div>
+                                <span class="card-title">Research</span>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon" style="color: #4285F4;">📄</div>
+                                <span class="card-title">Docs</span>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon" style="color: #F4B400;">🪧</div>
+                                <span class="card-title">Slides</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scene 3: Research Workspace -->
+                <div id="scene-app-3" class="scene">
+                    <!-- LHS: Agent -->
+                    <div class="agent-panel">
+                        <div class="model-selector-wrapper" id="model-selector-wrapper">
+                            <div class="model-selector" id="model-selector-btn">
+                                <span id="selected-model">MiniMax-01</span>
+                                <span>▼</span>
+                            </div>
+                            <div class="model-dropdown" id="model-dropdown">
+                                <div class="model-option"><span>Claude 3.5 Sonnet</span><span>$$ ★★★★★</span></div>
+                                <div class="model-option"><span>GPT-4o</span><span>$$ ★★★★☆</span></div>
+                                <div class="model-option"><span>Gemini 1.5 Pro</span><span>$ ★★★★☆</span></div>
+                                <div class="model-option" id="minimax-option" style="background-color: var(--bg-color);"><span>MiniMax-01</span><span>¢ ★★★★★</span></div>
+                                <div class="model-option"><span>DeepSeek-V2</span><span>¢ ★★★★☆</span></div>
+                            </div>
+                        </div>
+
+                        <div class="chat-area">
+                            <div class="chat-input-wrapper">
+                                <div class="chat-input" id="chat-input-text"></div>
+                                <div class="pause-btn">||</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RHS: Content -->
+                    <div class="content-panel">
+                        <div class="tabs">
+                            <div class="tab active" id="tab-btn-plan">Plan</div>
+                            <div class="tab" id="tab-btn-workspace">Workspace</div>
+                            <div class="tab" id="tab-btn-preview">Preview</div>
+                        </div>
+
+                        <!-- Tab Content: Plan -->
+                        <div class="tab-content active" id="tab-content-plan">
+                            <div class="plan-item"><strong>Overall Instructions</strong>: Conduct market research.</div>
+                            <div class="plan-item"><strong>Step 1</strong>: Source Data on market sizing and key players.</div>
+                            <div class="plan-item"><strong>Step 2</strong>: Analyze Trends and consumer behavior.</div>
+                            <div class="plan-item"><strong>Step 3</strong>: Synthesize into actionable insights.</div>
+                            <div class="plan-item"><strong>Final Output</strong>: <span id="final-output-text">Google Doc</span><span class="plan-item-edit" id="final-output-edit"></span></div>
+                        </div>
+
+                        <!-- Tab Content: Workspace -->
+                        <div class="tab-content" id="tab-content-workspace">
+                            <div class="file-tree">
+                                <div class="folder">📁 input_metadata/</div>
+                                <div class="file" style="opacity: 1;" id="meta-file">└─ config.json <span id="meta-edit-indicator" style="color:var(--primary-light-blue);"></span></div>
+
+                                <div class="folder">📁 input/</div>
+                                <div class="file" id="file-1">└─ Morningstar_Analyst_Report.pdf</div>
+                                <div class="file" id="file-2">└─ Campbell_Earnings_Announcement.pdf</div>
+                                <div class="file" id="file-3">└─ PepsiCo_10K_Excerpt.pdf</div>
+                            </div>
+                        </div>
+
+                        <!-- Tab Content: Preview -->
+                        <div class="tab-content" id="tab-content-preview">
+                            <div class="doc-preview">
+                                <div class="doc-title">US Snacks Industry 2026 Outlook</div>
+                                <div class="doc-text" id="live-doc-text"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Scene 4: Outro -->
+                <div id="scene-app-4" class="scene">
+                    <h2 class="outro-text" id="outro-1">A business-first AI agent</h2>
+                    <h2 class="outro-text" id="outro-2">Cost conscious with the right AI model for every task</h2>
+                    <h2 class="outro-text" id="outro-3">On-prem and hyper-secure deployments available</h2>
+                </div>
+            </div>
+        </div>
+
+        <div id="animated-cursor"></div>
+    </div>
+
+    <!-- Scroll engine script -->
+    <script>
+        const totalScrollHeight = 20000;
+        let progress = 0; // Normalized global progress from 0.0 to 1.0
+
+        // Helpers
+        function getBound(p, start, end) {
+            if (p <= start) return 0;
+            if (p >= end) return 1;
+            return (p - start) / (end - start);
+        }
+
+        function setOpacity(elId, val) {
+            document.getElementById(elId).style.opacity = val;
+        }
+
+        function setTransformY(elId, val, unit="px") {
+            document.getElementById(elId).style.transform = `translateY(${val}${unit})`;
+        }
+
+        function setCursorPos(x, y) {
+            const cursor = document.getElementById('animated-cursor');
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+            cursor.style.opacity = 1;
+        }
+
+        function hideCursor() {
+            document.getElementById('animated-cursor').style.opacity = 0;
+        }
+
+        function setCursorClicking(isClicking) {
+            const cursor = document.getElementById('animated-cursor');
+            if (isClicking) cursor.classList.add('clicking');
+            else cursor.classList.remove('clicking');
+        }
+
+        function typeText(elId, fullText, p) {
+            const el = document.getElementById(elId);
+            const charCount = Math.floor(p * fullText.length);
+            el.innerText = fullText.substring(0, charCount);
+            if (p > 0 && p < 1 && charCount % 2 === 0) el.innerText += '|'; // Typing indicator
+        }
+
+        // Element Lookups
+        const appMain = document.getElementById('app-main');
+        const sidebar = document.getElementById('sidebar');
+
+        // Timings (normalized to 0.0 -> 1.0)
+        // Intro
+        const t_intro1_in = [0.0, 0.02];
+        const t_intro1_out = [0.05, 0.07];
+        const t_intro2_in = [0.08, 0.10];
+        const t_intro2_out = [0.15, 0.17];
+
+        // Main App + Scene 1
+        const t_app_in = [0.18, 0.20]; // App container fades in
+        const t_scene1_in = [0.18, 0.20];
+        const t_scene1_out = [0.24, 0.26];
+
+        // Scene 2
+        const t_scene2_in = [0.26, 0.28];
+        const t_scene2_move_mouse = [0.30, 0.35]; // Mouse moves to 'Research'
+        const t_scene2_click = [0.35, 0.36];
+        const t_scene2_out = [0.37, 0.39]; // Fade to Scene 3
+
+        // Scene 3
+        const t_scene3_in = [0.37, 0.39];
+        // 3.1 Model Selection
+        const t_scene3_move_model = [0.41, 0.44];
+        const t_scene3_click_model = [0.44, 0.45];
+        const t_scene3_show_dropdown = [0.45, 0.46];
+        const t_scene3_move_minimax = [0.46, 0.49];
+        const t_scene3_click_minimax = [0.49, 0.50];
+        // 3.2 Plan Edit
+        const t_scene3_move_plan = [0.52, 0.55];
+        const t_scene3_click_plan = [0.55, 0.56];
+        const t_scene3_type_drive = [0.57, 0.61];
+        // 3.3 Chat Prompt
+        const t_scene3_move_chat = [0.62, 0.65];
+        const t_scene3_click_chat = [0.65, 0.66];
+        const t_scene3_type_prompt = [0.67, 0.73];
+        // 3.4 Workspace Tab Switch
+        const t_scene3_move_ws_tab = [0.74, 0.77];
+        const t_scene3_click_ws_tab = [0.77, 0.78];
+        // 3.5 Files populating
+        const t_scene3_file1 = [0.80, 0.81];
+        const t_scene3_file2 = [0.81, 0.82];
+        const t_scene3_file3 = [0.82, 0.83];
+        const t_scene3_meta_edit = [0.80, 0.84];
+        // 3.6 Preview Tab Switch
+        const t_scene3_move_prev_tab = [0.85, 0.87];
+        const t_scene3_click_prev_tab = [0.87, 0.88];
+        const t_scene3_type_doc = [0.89, 0.94];
+        const t_scene3_out = [0.95, 0.96];
+
+        // Outro
+        const t_outro1_in = [0.96, 0.97];
+        const t_outro2_in = [0.975, 0.985];
+        const t_outro3_in = [0.99, 1.0];
+
+        function updateTimeline() {
+            const scrollY = window.scrollY;
+            const maxScroll = totalScrollHeight - window.innerHeight;
+            progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
+            renderFrame(progress);
+        }
+
+        function renderFrame(p) {
+            // Intro 1
+            const pIntro1In = getBound(p, t_intro1_in[0], t_intro1_in[1]);
+            const pIntro1Out = getBound(p, t_intro1_out[0], t_intro1_out[1]);
+            setOpacity('scene-intro-1', pIntro1In * (1 - pIntro1Out));
+            setTransformY('intro-text-1', 20 * (1 - pIntro1In) - 20 * pIntro1Out);
+
+            // Intro 2
+            const pIntro2In = getBound(p, t_intro2_in[0], t_intro2_in[1]);
+            const pIntro2Out = getBound(p, t_intro2_out[0], t_intro2_out[1]);
+            setOpacity('scene-intro-2', pIntro2In * (1 - pIntro2Out));
+            setTransformY('intro-text-2', 20 * (1 - pIntro2In) - 20 * pIntro2Out);
+
+            // Main App Container visibility
+            const pAppIn = getBound(p, t_app_in[0], t_app_in[1]);
+            const pScene3Out = getBound(p, t_scene3_out[0], t_scene3_out[1]);
+            if (p >= t_app_in[0]) {
+                appMain.style.display = 'block';
+            } else {
+                appMain.style.display = 'none';
+            }
+
+            // Sidebar is persistent while App is active, until Scene 3 fades out
+            sidebar.style.opacity = pAppIn * (1 - pScene3Out);
+
+            // Scene 1 (Welcome)
+            const pScene1In = getBound(p, t_scene1_in[0], t_scene1_in[1]);
+            const pScene1Out = getBound(p, t_scene1_out[0], t_scene1_out[1]);
+            setOpacity('scene-app-1', pScene1In * (1 - pScene1Out));
+
+            // Scene 2 (Dashboard)
+            const pScene2In = getBound(p, t_scene2_in[0], t_scene2_in[1]);
+            const pScene2Out = getBound(p, t_scene2_out[0], t_scene2_out[1]);
+            setOpacity('scene-app-2', pScene2In * (1 - pScene2Out));
+
+            // Scene 3 (Workspace)
+            const pScene3In = getBound(p, t_scene3_in[0], t_scene3_in[1]);
+            setOpacity('scene-app-3', pScene3In * (1 - pScene3Out));
+
+            // =========================
+            // ANIMATIONS & MOUSE LOGIC
+            // =========================
+
+            let isCursorActive = false;
+
+            // -- Scene 2 Cursor --
+            if (p >= t_scene2_move_mouse[0] && p <= t_scene3_in[1]) {
+                isCursorActive = true;
+                const pMove = getBound(p, t_scene2_move_mouse[0], t_scene2_move_mouse[1]);
+
+                // Starting roughly bottom right, moving to 'Research' card
+                const startX = window.innerWidth * 0.8;
+                const startY = window.innerHeight * 0.8;
+
+                const card = document.getElementById('card-research');
+                const cardRect = card.getBoundingClientRect();
+                const targetX = cardRect.left + cardRect.width / 2;
+                const targetY = cardRect.top + cardRect.height / 2;
+
+                const curX = startX + (targetX - startX) * pMove;
+                const curY = startY + (targetY - startY) * pMove;
+
+                setCursorPos(curX, curY);
+
+                const pClick = getBound(p, t_scene2_click[0], t_scene2_click[1]);
+                setCursorClicking(pClick > 0 && pClick < 1);
+            }
+
+            // -- Scene 3 Interactions --
+            if (p > t_scene3_in[0] && p < t_scene3_out[1]) {
+                // 3.1 Model Dropdown
+                const pMoveMod = getBound(p, t_scene3_move_model[0], t_scene3_move_model[1]);
+                const pClickMod = getBound(p, t_scene3_click_model[0], t_scene3_click_model[1]);
+                const pDrop = getBound(p, t_scene3_show_dropdown[0], t_scene3_show_dropdown[1]);
+                const pMoveMini = getBound(p, t_scene3_move_minimax[0], t_scene3_move_minimax[1]);
+                const pClickMini = getBound(p, t_scene3_click_minimax[0], t_scene3_click_minimax[1]);
+
+                // Reset tabs based on progress
+                if (p < t_scene3_click_ws_tab[0]) {
+                    document.getElementById('tab-btn-plan').classList.add('active');
+                    document.getElementById('tab-btn-workspace').classList.remove('active');
+                    document.getElementById('tab-btn-preview').classList.remove('active');
+                    document.getElementById('tab-content-plan').classList.add('active');
+                    document.getElementById('tab-content-workspace').classList.remove('active');
+                    document.getElementById('tab-content-preview').classList.remove('active');
+                } else if (p < t_scene3_click_prev_tab[0]) {
+                    document.getElementById('tab-btn-plan').classList.remove('active');
+                    document.getElementById('tab-btn-workspace').classList.add('active');
+                    document.getElementById('tab-btn-preview').classList.remove('active');
+                    document.getElementById('tab-content-plan').classList.remove('active');
+                    document.getElementById('tab-content-workspace').classList.add('active');
+                    document.getElementById('tab-content-preview').classList.remove('active');
+                } else {
+                    document.getElementById('tab-btn-plan').classList.remove('active');
+                    document.getElementById('tab-btn-workspace').classList.remove('active');
+                    document.getElementById('tab-btn-preview').classList.add('active');
+                    document.getElementById('tab-content-plan').classList.remove('active');
+                    document.getElementById('tab-content-workspace').classList.remove('active');
+                    document.getElementById('tab-content-preview').classList.add('active');
+                }
+
+                // Model UI updates
+                if (pDrop > 0 && p < t_scene3_click_minimax[1]) {
+                    document.getElementById('model-dropdown').style.opacity = pDrop;
+                    document.getElementById('model-dropdown').style.pointerEvents = 'auto';
+                } else {
+                    document.getElementById('model-dropdown').style.opacity = 0;
+                    document.getElementById('model-dropdown').style.pointerEvents = 'none';
+                }
+
+                // Cursor sequence 1: Model selector
+                if (p > t_scene3_in[1] && p <= t_scene3_click_minimax[1]) {
+                    isCursorActive = true;
+                    const btnRect = document.getElementById('model-selector-btn').getBoundingClientRect();
+                    const optRect = document.getElementById('minimax-option').getBoundingClientRect();
+
+                    let curX = btnRect.left + btnRect.width / 2;
+                    let curY = btnRect.top + btnRect.height / 2;
+
+                    if (p > t_scene3_move_model[0] && p <= t_scene3_show_dropdown[0]) {
+                        // Keep at button, animate click
+                        setCursorClicking(pClickMod > 0 && pClickMod < 1);
+                    } else if (p > t_scene3_show_dropdown[0]) {
+                        // Move to option
+                        const optTargetY = btnRect.top + btnRect.height + 150; // Approximation based on CSS
+                        curY = curY + (optTargetY - curY) * pMoveMini;
+                        setCursorClicking(pClickMini > 0 && pClickMini < 1);
+                    }
+                    setCursorPos(curX, curY);
+                }
+
+                // 3.2 Edit Plan
+                if (p > t_scene3_click_minimax[1] && p <= t_scene3_type_drive[1]) {
+                    isCursorActive = true;
+                    const pMovePlan = getBound(p, t_scene3_move_plan[0], t_scene3_move_plan[1]);
+                    const pClickPlan = getBound(p, t_scene3_click_plan[0], t_scene3_click_plan[1]);
+                    const pTypeDrive = getBound(p, t_scene3_type_drive[0], t_scene3_type_drive[1]);
+
+                    const startX = document.getElementById('model-selector-btn').getBoundingClientRect().left;
+                    const startY = document.getElementById('model-selector-btn').getBoundingClientRect().bottom;
+
+                    const outputRect = document.getElementById('final-output-text').getBoundingClientRect();
+                    const targetX = outputRect.right + 20;
+                    const targetY = outputRect.top + outputRect.height / 2;
+
+                    setCursorPos(startX + (targetX - startX) * pMovePlan, startY + (targetY - startY) * pMovePlan);
+                    setCursorClicking(pClickPlan > 0 && pClickPlan < 1);
+
+                    // Typing
+                    if (p > t_scene3_click_plan[1]) {
+                        typeText('final-output-edit', ' -> /Drive/Q4_Research', pTypeDrive);
+                        document.getElementById('final-output-text').style.textDecoration = 'line-through';
+                        document.getElementById('final-output-text').style.opacity = 0.5;
+                    } else {
+                        document.getElementById('final-output-edit').innerText = '';
+                        document.getElementById('final-output-text').style.textDecoration = 'none';
+                        document.getElementById('final-output-text').style.opacity = 1;
+                    }
+                }
+
+                // 3.3 Chat Prompt
+                if (p > t_scene3_type_drive[1] && p <= t_scene3_type_prompt[1]) {
+                    isCursorActive = true;
+                    const pMoveChat = getBound(p, t_scene3_move_chat[0], t_scene3_move_chat[1]);
+                    const pClickChat = getBound(p, t_scene3_click_chat[0], t_scene3_click_chat[1]);
+                    const pTypePrompt = getBound(p, t_scene3_type_prompt[0], t_scene3_type_prompt[1]);
+
+                    const outputRect = document.getElementById('final-output-text').getBoundingClientRect();
+                    const startX = outputRect.right;
+                    const startY = outputRect.top;
+
+                    const chatRect = document.getElementById('chat-input-text').getBoundingClientRect();
+                    const targetX = chatRect.left + 50;
+                    const targetY = chatRect.top + 20;
+
+                    setCursorPos(startX + (targetX - startX) * pMoveChat, startY + (targetY - startY) * pMoveChat);
+                    setCursorClicking(pClickChat > 0 && pClickChat < 1);
+
+                    typeText('chat-input-text', 'execute for the US snacks industry in 2026', pTypePrompt);
+                }
+
+                // 3.4 Workspace Tab Switch
+                if (p > t_scene3_type_prompt[1] && p <= t_scene3_click_ws_tab[1]) {
+                    isCursorActive = true;
+                    const pMoveWs = getBound(p, t_scene3_move_ws_tab[0], t_scene3_move_ws_tab[1]);
+                    const pClickWs = getBound(p, t_scene3_click_ws_tab[0], t_scene3_click_ws_tab[1]);
+
+                    const chatRect = document.getElementById('chat-input-text').getBoundingClientRect();
+                    const startX = chatRect.left + 50;
+                    const startY = chatRect.top + 20;
+
+                    const tabRect = document.getElementById('tab-btn-workspace').getBoundingClientRect();
+                    const targetX = tabRect.left + tabRect.width / 2;
+                    const targetY = tabRect.top + tabRect.height / 2;
+
+                    setCursorPos(startX + (targetX - startX) * pMoveWs, startY + (targetY - startY) * pMoveWs);
+                    setCursorClicking(pClickWs > 0 && pClickWs < 1);
+                }
+
+                // 3.5 Workspace Files Appearing
+                if (p > t_scene3_click_ws_tab[1] && p <= t_scene3_click_prev_tab[0]) {
+                    isCursorActive = false; // Mouse idle
+                    const pFile1 = getBound(p, t_scene3_file1[0], t_scene3_file1[1]);
+                    const pFile2 = getBound(p, t_scene3_file2[0], t_scene3_file2[1]);
+                    const pFile3 = getBound(p, t_scene3_file3[0], t_scene3_file3[1]);
+                    const pMeta = getBound(p, t_scene3_meta_edit[0], t_scene3_meta_edit[1]);
+
+                    document.getElementById('file-1').style.opacity = pFile1;
+                    document.getElementById('file-2').style.opacity = pFile2;
+                    document.getElementById('file-3').style.opacity = pFile3;
+
+                    const editArr = ['[reading]', '[analyzing]', '[writing]', '[done]'];
+                    const idx = Math.min(Math.floor(pMeta * editArr.length), editArr.length - 1);
+                    if(pMeta > 0) document.getElementById('meta-edit-indicator').innerText = editArr[idx];
+                    else document.getElementById('meta-edit-indicator').innerText = '';
+                }
+
+                // 3.6 Preview Tab Switch & Type
+                if (p > t_scene3_click_ws_tab[1] && p <= t_scene3_click_prev_tab[1]) {
+                    isCursorActive = true;
+                    const pMovePrev = getBound(p, t_scene3_move_prev_tab[0], t_scene3_move_prev_tab[1]);
+                    const pClickPrev = getBound(p, t_scene3_click_prev_tab[0], t_scene3_click_prev_tab[1]);
+
+                    const tabWsRect = document.getElementById('tab-btn-workspace').getBoundingClientRect();
+                    const startX = tabWsRect.left + tabWsRect.width / 2;
+                    const startY = tabWsRect.top + tabWsRect.height / 2;
+
+                    const tabPrevRect = document.getElementById('tab-btn-preview').getBoundingClientRect();
+                    const targetX = tabPrevRect.left + tabPrevRect.width / 2;
+                    const targetY = tabPrevRect.top + tabPrevRect.height / 2;
+
+                    setCursorPos(startX + (targetX - startX) * pMovePrev, startY + (targetY - startY) * pMovePrev);
+                    setCursorClicking(pClickPrev > 0 && pClickPrev < 1);
+                }
+
+                // Hide cursor after last click
+                if (p > t_scene3_click_prev_tab[1]) {
+                    isCursorActive = false;
+                }
+
+                if (p > t_scene3_click_prev_tab[0]) {
+                    const pTypeDoc = getBound(p, t_scene3_type_doc[0], t_scene3_type_doc[1]);
+                    const docText = "The US snack industry is projected to reach $150 Billion by 2026. Growth drivers include a shift towards healthier alternatives and direct-to-consumer digital channels.\n\nKey Competitors:\n- PepsiCo (Frito-Lay)\n- Campbell Soup Company\n\nMorningstar analysis indicates strong margin preservation due to pricing power, despite raw material inflation.";
+                    typeText('live-doc-text', docText, pTypeDoc);
+                }
+            }
+
+            if (!isCursorActive) hideCursor();
+
+
+            // Outro Scene
+            const pOutro1In = getBound(p, t_outro1_in[0], t_outro1_in[1]);
+            const pOutro2In = getBound(p, t_outro2_in[0], t_outro2_in[1]);
+            const pOutro3In = getBound(p, t_outro3_in[0], t_outro3_in[1]);
+
+            setOpacity('scene-app-4', pOutro1In); // Wrapper
+
+            setOpacity('outro-1', pOutro1In);
+            setTransformY('outro-1', 20 * (1 - pOutro1In));
+
+            setOpacity('outro-2', pOutro2In);
+            setTransformY('outro-2', 20 * (1 - pOutro2In));
+
+            setOpacity('outro-3', pOutro3In);
+            setTransformY('outro-3', 20 * (1 - pOutro3In));
+        }
+
+        window.addEventListener('scroll', updateTimeline, { passive: true });
+        window.addEventListener('resize', updateTimeline);
+
+        // Initial render
+        updateTimeline();
+    </script>
 </body>
 </html>
