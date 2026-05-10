@@ -1,2 +1,5 @@
-127.0.0.1 - - [10/May/2026 05:53:03] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [10/May/2026 05:53:53] "GET / HTTP/1.1" 200 -
+Using CPython 3.12.13 interpreter at: /home/jules/.pyenv/versions/3.12.13/bin/python3.12
+Creating virtual environment at: .venv
+127.0.0.1 - - [10/May/2026 22:03:23] "HEAD / HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 22:04:18] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 22:04:49] "GET / HTTP/1.1" 200 -
