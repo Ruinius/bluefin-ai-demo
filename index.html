@@ -135,9 +135,259 @@
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
         }
+
+        /* Sidebar Styles */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 56px;
+            height: 100vh;
+            background: var(--gradient-sidebar);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: var(--space-5);
+            padding-bottom: var(--space-5);
+            transform: translateX(-56px);
+            pointer-events: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: var(--space-5);
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            margin-bottom: 0;
+        }
+
+        .sidebar-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-inverse);
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+            pointer-events: auto;
+        }
+
+        .sidebar-icon:hover {
+            opacity: 1.0;
+        }
+
+        .sidebar-logo {
+            width: 28px;
+            height: 28px;
+            pointer-events: auto;
+        }
+
+        .sidebar-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            border: 2px solid var(--text-inverse);
+            background: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-inverse);
+            font-weight: 600;
+            font-size: 14px;
+            pointer-events: auto;
+        }
+
+        /* Dashboard Styles */
+        #dashboard-container {
+            position: fixed;
+            top: 0;
+            left: 56px;
+            width: calc(100% - 56px);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 8;
+            opacity: 0;
+            pointer-events: none;
+            padding: var(--space-8);
+            box-sizing: border-box;
+        }
+
+        .dashboard-content {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-8);
+        }
+
+        .dashboard-section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            width: 300px;
+        }
+
+        .search-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+        }
+
+        .search-input {
+            border: none;
+            background: none;
+            font-family: var(--font-primary);
+            font-size: 15px;
+            color: var(--text-primary);
+            width: 100%;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .workspace-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-5);
+        }
+
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            box-shadow: var(--shadow-low);
+            transition: all 0.25s var(--ease-standard);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .template-cards {
+            display: flex;
+            gap: var(--space-4);
+            overflow-x: hidden;
+            padding-bottom: var(--space-2); /* Shadow space */
+        }
+
+        .template-card {
+            min-width: 160px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-4);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-low);
+            transition: all 0.25s var(--ease-standard);
+            position: relative;
+        }
+
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .template-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .gradient-icon {
+            fill: url(#logo-grad);
+        }
+
+        /* Cursor Styles */
+        #animated-cursor {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            background: rgba(59, 130, 246, 0.6); /* --cursor-blue with opacity */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            /* Will be animated via transform */
+        }
+
+        #animated-cursor::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: var(--radius-full);
+            background: var(--cursor-blue);
+        }
     </style>
 </head>
 <body>
+    <!-- Persistent Left Sidebar -->
+    <div id="sidebar">
+        <div class="sidebar-item">
+            <!-- Bluefin Logo -->
+            <svg class="sidebar-logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="var(--blue-light)" />
+                        <stop offset="40%" stop-color="var(--blue-mid)" />
+                        <stop offset="100%" stop-color="var(--violet)" />
+                    </linearGradient>
+                </defs>
+                <path d="M14 2C7.37258 2 2 7.37258 2 14C2 20.6274 7.37258 26 14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2Z" fill="url(#logo-grad)"/>
+                <path d="M18 10L10 18M10 10L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="sidebar-item">
+            <!-- Avatar -->
+            <div class="sidebar-avatar">
+                S
+            </div>
+        </div>
+        <div class="sidebar-item">
+            <!-- Settings -->
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+        </div>
+        <div class="sidebar-item sidebar-bottom">
+            <!-- Exit -->
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </div>
+    </div>
+
     <!-- Fixed Narrative Container for Prologue -->
     <div id="narrative-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 10; pointer-events: none;">
 
@@ -174,6 +424,94 @@
 
     </div>
 
+    <!-- Fixed Welcome Container for Part 3 -->
+    <div id="welcome-container" style="position: fixed; top: 0; left: 56px; width: calc(100% - 56px); height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 9; pointer-events: none;">
+        <div id="content-welcome" class="text-hero" style="color: var(--text-primary); opacity: 0; text-align: center;">
+            Welcome back, <span id="welcome-name"></span>
+        </div>
+    </div>
+
+    <!-- Fixed Dashboard Container for Part 4 -->
+    <div id="dashboard-container">
+        <div class="dashboard-content" id="dashboard-content" style="transform: translateY(20px);">
+            <!-- Top Half -->
+            <div class="dashboard-section">
+                <div class="dashboard-header">
+                    <div class="text-h1">Your workspaces</div>
+                    <div class="search-bar">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" class="search-input" placeholder="Search workspaces..." disabled>
+                    </div>
+                </div>
+                <div class="workspace-cards">
+                    <div class="card">
+                        <div class="text-h3" style="margin-bottom: var(--space-2);">Q1 Market Analysis</div>
+                        <div class="text-caption">Last edited: 2 days ago</div>
+                    </div>
+                    <div class="card">
+                        <div class="text-h3" style="margin-bottom: var(--space-2);">Board Deck Draft</div>
+                        <div class="text-caption">Last edited: 1 week ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Half -->
+            <div class="dashboard-section">
+                <div class="text-h1">Start a new workspace</div>
+                <div class="template-cards">
+                    <!-- Blank Workspace -->
+                    <div class="template-card">
+                        <svg class="template-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary);">
+                            <rect x="8" y="8" width="24" height="24" rx="4"></rect>
+                            <line x1="20" y1="14" x2="20" y2="26"></line>
+                            <line x1="14" y1="20" x2="26" y2="20"></line>
+                        </svg>
+                        <div class="text-h3">Blank</div>
+                    </div>
+
+                    <!-- Research Workspace -->
+                    <div class="template-card" id="template-research">
+                        <svg class="template-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 6H26C28.2091 6 30 7.79086 30 10V30C30 32.2091 28.2091 34 26 34H14C11.7909 34 10 32.2091 10 30V10C10 7.79086 11.7909 6 14 6Z" stroke="url(#logo-grad)" stroke-width="2"/>
+                            <path d="M16 14H24" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M16 20H20" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="24" cy="24" r="5" fill="white" stroke="url(#logo-grad)" stroke-width="2"/>
+                            <line x1="27.5" y1="27.5" x2="32" y2="32" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <div class="text-h3">Research</div>
+                    </div>
+
+                    <!-- Docs Workspace -->
+                    <div class="template-card">
+                        <svg class="template-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 6H22L30 14V30C30 32.2091 28.2091 34 26 34H14C11.7909 34 10 32.2091 10 30V10C10 7.79086 11.7909 6 12 6Z" fill="var(--blue-mid)"/>
+                            <path d="M22 6V14H30" fill="var(--blue-light)"/>
+                            <path d="M15 20H25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M15 24H25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M15 28H21" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <div class="text-h3">Docs</div>
+                    </div>
+
+                    <!-- Slides Workspace -->
+                    <div class="template-card">
+                        <svg class="template-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 10C8 7.79086 9.79086 6 12 6H28C30.2091 6 32 7.79086 32 10V30C32 32.2091 30.2091 34 28 34H12C9.79086 34 8 32.2091 8 30V10Z" fill="#F59E0B"/>
+                            <rect x="12" y="12" width="16" height="12" rx="1" fill="white"/>
+                        </svg>
+                        <div class="text-h3">Slides</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animated Cursor -->
+    <div id="animated-cursor"></div>
+
     <!-- Scroll Sections Containers -->
     <div id="section-instructions" style="height: 100vh;"></div>
     <div id="section-opening" style="height: 100vh;"></div>
@@ -193,7 +531,11 @@
     <script>
         const recipientName = "Sarah";
 
+
+        document.getElementById('welcome-name').textContent = recipientName;
+
         // Expose section progress values globally
+
         const sectionProgress = {
             'section-instructions': 0,
             'section-opening': 0,
@@ -321,6 +663,124 @@
                 if(q1) q1.style.opacity = 0;
                 if(q2) q2.style.opacity = 0;
                 if(q3) q3.style.opacity = 0;
+            }
+
+            // Sidebar entrance
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                // Determine cumulative progress after transition section to keep it fully shown
+                const pAfterTrans = getProgress('section-welcome'); // If section-welcome started, transition is done
+                let sidebarTranslate = -56;
+                if (pTrans > 0 || pAfterTrans > 0) {
+                    sidebarTranslate = pAfterTrans > 0 ? 0 : mapRange(pTrans, 0, 1.0, -56, 0);
+                }
+                sidebar.style.transform = `translateX(${sidebarTranslate}px)`;
+            }
+
+            // Section 3 — Welcome Screen
+            const pWelcome = getProgress('section-welcome');
+            const elWelcome = document.getElementById('content-welcome');
+            if (elWelcome) {
+                let opacity = 0;
+                if (pWelcome > 0 && pWelcome < 0.3) {
+                    opacity = mapRange(pWelcome, 0.0, 0.3, 0, 1);
+                } else if (pWelcome >= 0.3 && pWelcome <= 0.7) {
+                    opacity = 1;
+                } else if (pWelcome > 0.7) {
+                    opacity = mapRange(pWelcome, 0.7, 1.0, 1, 0);
+                }
+                elWelcome.style.opacity = opacity;
+            }
+
+            // Section 4 & 5 — Dashboard & Cursor Click
+            const pDash = getProgress('section-dashboard');
+            const pClick = getProgress('section-click-research');
+            const dashContainer = document.getElementById('dashboard-container');
+            const dashContent = document.getElementById('dashboard-content');
+            const cursor = document.getElementById('animated-cursor');
+            const researchCard = document.getElementById('template-research');
+
+            if (dashContainer && dashContent) {
+                let opacity = 0;
+                let translateY = 20;
+
+                if (pDash > 0 && pDash <= 0.3) {
+                    opacity = mapRange(pDash, 0.0, 0.3, 0, 1);
+                    translateY = mapRange(pDash, 0.0, 0.3, 20, 0);
+                } else if (pDash > 0.3) {
+                    opacity = 1;
+                    translateY = 0;
+                }
+
+                // Fade out as section 5 progresses 0.7 -> 1.0
+                if (pClick > 0.7) {
+                    opacity = mapRange(pClick, 0.7, 1.0, 1, 0);
+                }
+
+                dashContainer.style.opacity = opacity;
+                dashContent.style.transform = `translateY(${translateY}px)`;
+            }
+
+            // Section 5 - Cursor Click Logic
+            if (cursor && researchCard) {
+                const cardRect = researchCard.getBoundingClientRect();
+
+                // Target position (center of the research card)
+                const targetX = cardRect.left + (cardRect.width / 2) - 16; // -16 to center 32px cursor
+                const targetY = cardRect.top + (cardRect.height / 2) - 16;
+
+                // Start position (bottom right)
+                const startX = window.innerWidth - 100;
+                const startY = window.innerHeight - 100;
+
+                let cursorOpacity = 0;
+                let cursorX = startX;
+                let cursorY = startY;
+                let cursorScale = 1;
+
+                if (pClick > 0) {
+                    if (pClick <= 0.3) {
+                        // Fade in at start pos
+                        cursorOpacity = mapRange(pClick, 0.0, 0.3, 0, 1);
+                        cursorX = startX;
+                        cursorY = startY;
+                    } else if (pClick <= 0.6) {
+                        // Move to card
+                        cursorOpacity = 1;
+                        const moveProgress = mapRange(pClick, 0.3, 0.6, 0, 1);
+                        // Easing logic could be more complex, but simple linear/lerp for now
+                        cursorX = startX + (targetX - startX) * moveProgress;
+                        cursorY = startY + (targetY - startY) * moveProgress;
+                    } else if (pClick <= 0.7) {
+                        // Click animation
+                        cursorOpacity = 1;
+                        cursorX = targetX;
+                        cursorY = targetY;
+
+                        // Scale down and up
+                        if (pClick < 0.65) {
+                            cursorScale = mapRange(pClick, 0.6, 0.65, 1, 0.7);
+                            researchCard.style.transform = `scale(${mapRange(pClick, 0.6, 0.65, 1, 0.95)})`;
+                            researchCard.style.borderColor = 'var(--blue-mid)';
+                        } else {
+                            cursorScale = mapRange(pClick, 0.65, 0.7, 0.7, 1);
+                            researchCard.style.transform = `scale(${mapRange(pClick, 0.65, 0.7, 0.95, 1)})`;
+                        }
+                    } else {
+                        // Dashboard starts fading out, cursor might stay or fade
+                        cursorOpacity = mapRange(pClick, 0.7, 1.0, 1, 0); // Fade out cursor for now before Part 5
+                        cursorX = targetX;
+                        cursorY = targetY;
+                        researchCard.style.transform = 'scale(1)';
+                        researchCard.style.borderColor = 'var(--border)';
+                    }
+                } else {
+                    researchCard.style.transform = 'scale(1)';
+                    researchCard.style.borderColor = 'var(--border)';
+                }
+
+                cursor.style.opacity = cursorOpacity;
+                cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
             }
         }
 
