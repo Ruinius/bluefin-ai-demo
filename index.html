@@ -190,8 +190,80 @@
 
     /* --- Part 2: Prologue styles (Sections 0.0–2) ---
          See: docs/sections/02_prologue.md
-         Slot your CSS here.
     */
+
+    /* Prologue centered container */
+    .prologue-center {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+      text-align: center;
+    }
+
+    /* Instructions text with scroll arrow */
+    .prologue-instructions {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+    }
+
+    .scroll-arrow {
+      color: var(--text-secondary);
+      opacity: 0.6;
+      animation: scroll-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+
+    /* Hero/Narrative text */
+    .prologue-hero {
+      font-size: 48px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      max-width: 800px;
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-standard);
+    }
+
+    /* Problem section header */
+    .prologue-header {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-6);
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-standard);
+    }
+
+    /* Quote styling */
+    .prologue-quote {
+      font-size: 18px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.5;
+      max-width: 600px;
+      margin-bottom: var(--space-4);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s var(--ease-decelerate), transform 0.4s var(--ease-decelerate);
+    }
+
+    .prologue-quote:last-child {
+      margin-bottom: 0;
+    }
 
     /* --- Part 3: Sidebar & Welcome styles (Sections 2–3) ---
          See: docs/sections/03_sidebar_welcome.md
@@ -248,33 +320,37 @@
 
   <!-- Section 0.0 — Instructions -->
   <div id="section-instructions" class="scroll-section">
-    <div class="placeholder">
-      <span class="placeholder-label">Section 0.0 — Instructions</span>
-      <span class="placeholder-part">Part 2 · 02_prologue.md</span>
+    <div class="prologue-center">
+      <p class="prologue-instructions">This is a zero-dependency HTML presentation. Scroll down to proceed.</p>
+      <div class="scroll-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
     </div>
   </div>
 
   <!-- Section 0 — Opening Statement -->
   <div id="section-opening" class="scroll-section">
-    <div class="placeholder">
-      <span class="placeholder-label">Section 0 — Opening Statement</span>
-      <span class="placeholder-part">Part 2 · 02_prologue.md</span>
+    <div class="prologue-center">
+      <p class="prologue-hero">AI-native engineers have: Jules, Codex, Claude Code, OpenHands, and a dozen powerful tools.</p>
     </div>
   </div>
 
   <!-- Section 1 — The Problem -->
   <div id="section-problem" class="scroll-section">
-    <div class="placeholder">
-      <span class="placeholder-label">Section 1 — The Problem</span>
-      <span class="placeholder-part">Part 2 · 02_prologue.md</span>
+    <div class="prologue-center">
+      <p class="prologue-header">AI-native business folks are saying:</p>
+      <blockquote class="prologue-quote prologue-quote-1">"What is a markdown? I need a Google Docs or at least a DOCX."</blockquote>
+      <blockquote class="prologue-quote prologue-quote-2">"I just spent two hours trying to set up a MCP server for Databricks. What is MCP?"</blockquote>
+      <blockquote class="prologue-quote prologue-quote-3">"Holy crap, running Claude for an hour on my presentation cost $150."</blockquote>
     </div>
   </div>
 
   <!-- Section 2 — Transition to Product -->
   <div id="section-transition" class="scroll-section">
-    <div class="placeholder">
-      <span class="placeholder-label">Section 2 — Transition to Product</span>
-      <span class="placeholder-part">Part 2/3 · 02_prologue.md / 03_sidebar_welcome.md</span>
+    <div class="prologue-center">
+      <!-- Empty — this section fades out text and acts as bridge to product -->
     </div>
   </div>
 
@@ -447,8 +523,75 @@
 
     /* --- Part 2: Prologue logic (Sections 0.0–2) ---
          See: docs/sections/02_prologue.md
-         Slot your JS here. Push handler into animationHandlers[].
     */
+
+    /**
+     * Prologue animation handler — drives Sections 0.0–2
+     */
+    function updatePrologue() {
+      // Section 0.0 — Instructions
+      // Fades in on load, fades out as user begins scrolling (progress 0 → 0.3)
+      const instructionsProgress = getProgress('section-instructions');
+      const instructionsEl = document.querySelector('#section-instructions .prologue-center');
+      if (instructionsEl) {
+        const opacity = 1 - Math.min(1, instructionsProgress / 0.3);
+        instructionsEl.style.opacity = opacity;
+      }
+
+      // Section 0 — Opening Statement
+      // Fades in at ~0.2, fully visible at ~0.5, fades out at ~1.0
+      const openingProgress = getProgress('section-opening');
+      const heroEl = document.querySelector('#section-opening .prologue-hero');
+      if (heroEl) {
+        let opacity;
+        if (openingProgress < 0.2) {
+          opacity = 0;
+        } else if (openingProgress < 0.5) {
+          opacity = (openingProgress - 0.2) / 0.3;
+        } else if (openingProgress < 0.8) {
+          opacity = 1;
+        } else {
+          opacity = 1 - (openingProgress - 0.8) / 0.2;
+        }
+        heroEl.style.opacity = opacity;
+      }
+
+      // Section 1 — The Problem
+      // Header fades in first, then quotes stagger in
+      const problemProgress = getProgress('section-problem');
+      const headerEl = document.querySelector('#section-problem .prologue-header');
+      const quote1El = document.querySelector('#section-problem .prologue-quote-1');
+      const quote2El = document.querySelector('#section-problem .prologue-quote-2');
+      const quote3El = document.querySelector('#section-problem .prologue-quote-3');
+
+      if (headerEl) {
+        const headerOpacity = Math.min(1, Math.max(0, (problemProgress - 0.1) / 0.2));
+        const headerFadeOut = problemProgress > 0.8 ? 1 - (problemProgress - 0.8) / 0.2 : 0;
+        headerEl.style.opacity = problemProgress < 0.1 ? 0 : Math.min(headerOpacity, headerFadeOut || 1);
+      }
+
+      const quotes = [
+        { el: quote1El, start: 0.2, fadeOut: 0.85 },
+        { el: quote2El, start: 0.35, fadeOut: 0.9 },
+        { el: quote3El, start: 0.5, fadeOut: 0.95 }
+      ];
+
+      quotes.forEach(({ el, start, fadeOut }) => {
+        if (!el) return;
+        if (problemProgress < start) {
+          el.style.opacity = 0;
+          el.style.transform = 'translateY(20px)';
+        } else if (problemProgress < fadeOut) {
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        } else {
+          el.style.opacity = 1 - (problemProgress - fadeOut) / (1 - fadeOut);
+          el.style.transform = 'translateY(0)';
+        }
+      });
+    }
+
+    animationHandlers.push(updatePrologue);
 
     /* --- Part 3: Sidebar & Welcome logic (Sections 2–3) ---
          See: docs/sections/03_sidebar_welcome.md
