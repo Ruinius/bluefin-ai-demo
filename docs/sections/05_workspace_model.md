@@ -41,6 +41,7 @@ Contents (top to bottom):
 - Approximately 60–65% of the main area width
 
 **Tab bar at top:**
+
 - Three tabs: **Plan** | **Workspace** | **Preview**
 - Tab styling (from style guide):
   - Style: underline tabs
@@ -63,6 +64,7 @@ A structured plan document displayed in the work area:
 Each step should be styled as a clean list item with step number bolded. Use Body text size (15px). Add comfortable spacing between steps.
 
 **Workspace entrance animation:**
+
 - The layout slides/fades in as Section 6 progress goes from 0.0 → 0.4
 - Left and right panels may stagger slightly
 
@@ -91,18 +93,17 @@ Each step should be styled as a clean list item with step number bolded. Use Bod
 
    **Models listed:**
 
-   | Model | Cost | User Rating |
-   |-------|------|-------------|
-   | Claude Opus 4.7 | $$$$$ | ★★★★★ |
-   | Claude Sonnet 4.6 | $$$$ | ★★★★ |
-   | GPT-5.5 | $$$$$ | ★★★★★ |
-   | GPT-5.3-Codex | $$$$ | ★★★★ |
-   | Gemini 3.1 Pro | $$$$ | ★★★★ |
-   | GLM-5.1 | $$$ | ★★★ |
-   | Deepseek-4 | $$$ | ★★★ |
-   | Kimi K2.6 | $$ | ★★ |
-   | MiniMax M2.7 | $ | ★★ |
-
+   | Model             | Cost  | User Rating |
+   | ----------------- | ----- | ----------- |
+   | Claude Opus 4.7   | $$$$$ | ★★★★★       |
+   | GPT-5.5           | $$$$$ | ★★★★★       |
+   | Claude Sonnet 4.6 | $$$$  | ★★★★        |
+   | GPT-5.3-Codex     | $$$$  | ★★★★        |
+   | Gemini 3.1 Pro    | $$$$  | ★★★★        |
+   | GLM-5.1           | $$$   | ★★★★        |
+   | Kimi K2.6         | $$    | ★★★         |
+   | Deepseek-4        | $$$   | ★★          |
+   | MiniMax M2.7      | $     | ★           |
    - Row hover: `var(--bg-secondary)` background
    - MiniMax M2.7 should have a checkmark icon + `var(--blue-light)` background tint (currently selected)
 
@@ -112,11 +113,11 @@ Each step should be styled as a clean list item with step number bolded. Use Bod
 
 ## Inline SVG Icons Needed
 
-| Icon | Size | Usage |
-|------|------|-------|
-| Chevron down | 12–16px | Model selector trigger |
-| Checkmark | 16px | Selected model indicator |
-| Pause | 24px | Pause button (filled circle with bars) |
+| Icon         | Size    | Usage                                  |
+| ------------ | ------- | -------------------------------------- |
+| Chevron down | 12–16px | Model selector trigger                 |
+| Checkmark    | 16px    | Selected model indicator               |
+| Pause        | 24px    | Pause button (filled circle with bars) |
 
 ## What NOT to Build
 
