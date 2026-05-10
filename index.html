@@ -346,6 +346,86 @@
             border-radius: var(--radius-full);
             background: var(--cursor-blue);
         }
+
+        /* Workspace & Model Selector Styles */
+        .model-row:hover {
+            background: var(--bg-secondary);
+        }
+        .model-row {
+            transition: background 0.15s ease;
+        }
+
+        /* Section 8 specific styles */
+        .typing-caret {
+            display: inline-block;
+            width: 8px;
+            background-color: var(--blue-mid);
+            color: transparent;
+            animation: blink 1s step-end infinite;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Section 9 specific styles (File Tree) */
+        .tree-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 4px 0;
+            color: var(--text-primary);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .tree-children {
+            padding-left: 20px;
+        }
+
+        .tree-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+        }
+
+        .pulsing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success);
+            margin-left: var(--space-2);
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Section 10 specific styles (Google Docs Preview) */
+        .docs-caret {
+            display: inline-block;
+            width: 2px;
+            background-color: var(--blue-mid);
+            color: transparent;
+            animation: blink 1s step-end infinite;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+        }
+
+        .docs-toolbar svg {
+            color: #5F6368;
+            cursor: default;
+        }
     </style>
 </head>
 <body>
@@ -505,6 +585,290 @@
                         <div class="text-h3">Slides</div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Fixed Workspace Container for Parts 5 and 6 -->
+    <div id="workspace-container" style="position: fixed; top: 0; left: 56px; width: calc(100% - 56px); height: 100vh; display: flex; z-index: 7; opacity: 0; pointer-events: none; background: var(--bg-primary);">
+        <!-- Left Panel: AI Agent -->
+        <div id="agent-panel" style="width: 38%; height: 100%; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: var(--space-5); box-sizing: border-box; background: var(--bg-primary); position: relative;">
+
+            <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+                <!-- Model Selector Trigger -->
+                <div id="model-selector-trigger" style="background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 10px 16px; display: flex; align-items: center; gap: var(--space-2); border: 1px solid transparent;">
+                    <span id="selected-model" class="text-body" style="font-weight: 500;">MiniMax M2.7</span>
+                    <!-- Chevron Down Icon -->
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary);">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+
+                <!-- Pause Button -->
+                <div class="pause-button" style="width: 32px; height: 32px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <rect x="9" y="8" width="2" height="8"/>
+                        <rect x="13" y="8" width="2" height="8"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Chat/Status Area (To be populated in Part 6) -->
+            <div id="agent-chat-area" style="flex: 1; display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-4); overflow-y: hidden; position: relative;">
+
+                <!-- Section 8 Agent Activity -->
+                <div id="agent-activity" style="display: flex; flex-direction: column; gap: var(--space-3); opacity: 0; transition: opacity 0.3s ease;">
+                    <div style="display: flex; align-items: center; gap: var(--space-2);">
+                        <div id="agent-spinner" style="width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--blue-mid); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                        <span class="text-body" style="color: var(--blue-mid); font-weight: 500;">Agent is working</span>
+                    </div>
+                    <div id="agent-msg-1" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Searching databases...</div>
+                    <div id="agent-msg-2" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Reading analyst reports...</div>
+                    <div id="agent-msg-3" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Analyzing market data...</div>
+                    <div id="agent-msg-4" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Writing Executive Summary...</div>
+                    <div id="agent-msg-5" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Generating market analysis...</div>
+                    <div id="agent-msg-6" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Formatting document...</div>
+                </div>
+
+            </div>
+
+            <!-- Model Dropdown (Initially Hidden) -->
+            <div id="model-dropdown" style="position: absolute; top: 75px; left: var(--space-5); width: calc(100% - 2 * var(--space-5)); background: #FFFFFF; border-radius: var(--radius-md); box-shadow: var(--shadow-high); border: 1px solid var(--border); opacity: 0; transform: scale(0.95); pointer-events: none; transform-origin: top left; z-index: 10; overflow: hidden;">
+                <div class="dropdown-list" style="display: flex; flex-direction: column;">
+                    <!-- Models -->
+                    <div id="model-row-0" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">Claude Opus 4.7</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$$$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★★★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-1" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">GPT-5.5</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$$$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★★★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-2" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">Claude Sonnet 4.6</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-3" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">GPT-5.3-Codex</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-4" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">Gemini 3.1 Pro</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-5" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">GLM-5.1</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-6" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">Kimi K2.6</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-7" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; ">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 24px;"></div>
+                            <span class="text-body" style="font-weight: 500;">Deepseek-4</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: var(--text-secondary); font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$$$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★★</span>
+                        </div>
+                    </div>
+                    <div id="model-row-8" class="model-row" style="padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; background: var(--blue-light) !important; color: white;">
+                        <div style="display: flex; align-items: center;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span class="text-body" style="font-weight: 500;">MiniMax M2.7</span>
+                        </div>
+                        <div style="display: flex; gap: var(--space-4); color: white; font-size: 13px;">
+                            <span style="width: 40px; text-align: right;">$</span>
+                            <span style="width: 60px; text-align: right; letter-spacing: 2px;">★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Panel: Work Area -->
+        <div id="work-area" style="width: 62%; height: 100%; display: flex; flex-direction: column; background: var(--bg-primary);">
+            <!-- Tab Bar -->
+            <div class="tab-bar" style="display: flex; gap: var(--space-5); padding: 0 var(--space-6); border-bottom: 1px solid var(--border); margin-top: var(--space-5);">
+                <div id="tab-plan" class="tab active-tab" style="padding-bottom: var(--space-2); color: var(--blue-dark); border-bottom: 2px solid var(--blue-mid); font-size: 18px; font-weight: 500; transition: color 0.2s ease, border-color 0.2s ease;">Plan</div>
+                <div id="tab-workspace" class="tab" style="padding-bottom: var(--space-2); color: var(--text-secondary); border-bottom: 2px solid transparent; font-size: 18px; font-weight: 500; transition: color 0.2s ease, border-color 0.2s ease;">Workspace</div>
+                <div id="tab-preview" class="tab" style="padding-bottom: var(--space-2); color: var(--text-secondary); border-bottom: 2px solid transparent; font-size: 18px; font-weight: 500; transition: color 0.2s ease, border-color 0.2s ease;">Preview</div>
+            </div>
+
+            <!-- Content Area -->
+            <div id="work-content" style="flex: 1; position: relative; overflow: hidden;">
+                <!-- Plan Tab Content -->
+                <div id="content-plan" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: var(--space-6); box-sizing: border-box; opacity: 1;">
+                    <div class="text-h2" style="margin-bottom: var(--space-5);">Overall Instructions</div>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+                        <div class="plan-step text-body"><span style="font-weight: 600;">Step 1:</span> Collect and analyze market data from industry databases and analyst reports</div>
+                        <div class="plan-step text-body"><span style="font-weight: 600;">Step 2:</span> Identify key players, market trends, and competitive dynamics</div>
+                        <div class="plan-step text-body"><span style="font-weight: 600;">Step 3:</span> Synthesize findings into an executive summary with charts and data tables</div>
+                        <div class="plan-step text-body" id="plan-final-output"><span style="font-weight: 600;">Final Output:</span> Google Doc<span id="plan-typing-text"></span><span id="plan-caret" class="typing-caret" style="opacity: 0;">|</span></div>
+                    </div>
+
+                    <!-- Input Area for Section 8 -->
+                    <div id="command-input-area" style="position: absolute; bottom: var(--space-6); left: var(--space-6); width: calc(100% - 2 * var(--space-6)); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; display: flex; align-items: center; gap: var(--space-2); opacity: 0;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--blue-mid);">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                        <span id="command-typing-text" class="text-body" style="color: var(--text-primary);"></span><span id="command-caret" class="typing-caret" style="opacity: 0;">|</span>
+                    </div>
+                </div>
+
+
+                <!-- Workspace Tab Content (Part 6) -->
+                <div id="content-workspace" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: var(--space-6); box-sizing: border-box; opacity: 0; pointer-events: none;">
+                    <div id="file-tree-container" class="text-mono">
+                        <div class="tree-item" id="tree-root" style="opacity: 0; transform: translateX(-10px);">
+                            <svg class="tree-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+                            <span style="font-weight: 500;">Research: US Snacks 2026</span>
+                        </div>
+
+                        <div class="tree-children">
+                            <div class="tree-item" id="tree-meta" style="opacity: 0; transform: translateX(-10px);">
+                                <svg class="tree-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+                                <span>input_metadata/</span>
+                            </div>
+
+                            <div class="tree-children">
+                                <div class="tree-item" id="tree-sources" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>sources.yaml</span>
+                                    <span class="pulsing-dot" id="sources-dot" style="opacity: 0;"></span>
+                                </div>
+                            </div>
+
+                            <div class="tree-item" id="tree-input" style="opacity: 0; transform: translateX(-10px);">
+                                <svg class="tree-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+                                <span>input/</span>
+                            </div>
+
+                            <div class="tree-children">
+                                <div class="tree-item" id="tree-file-0" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>Morningstar_US_Snacks_Overview.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-1" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>Campbell_Q4_2025_Earnings.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-2" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>Mondelez_Investor_Presentation.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-3" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>Euromonitor_Snack_Market_2026.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-4" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>Hershey_Annual_Report_2025.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-5" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>PepsiCo_Frito_Lay_Segment.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-6" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>Nielsen_Snack_Trends_Q1_2026.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-7" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>USDA_Food_Industry_Outlook.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-8" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>General_Mills_Snack_Division.pdf</span>
+                                </div>
+                                <div class="tree-item" id="tree-file-9" style="opacity: 0; transform: translateX(-10px);">
+                                    <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                    <span>Kellanova_Post_Merger_Analysis.pdf</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Preview Tab Content (Part 6) -->
+                <div id="content-preview" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: var(--space-5); box-sizing: border-box; opacity: 0; pointer-events: none; background: var(--bg-secondary); overflow-y: auto;">
+
+                    <div class="google-docs-page" style="background: white; border-radius: 4px; box-shadow: var(--shadow-high); max-width: 800px; margin: 0 auto; min-height: 800px;">
+
+                        <!-- Simplified Toolbar -->
+                        <div class="docs-toolbar" style="background: #F8F9FA; border-bottom: 1px solid #E2E8F0; padding: 8px 16px; border-radius: 4px 4px 0 0; display: flex; gap: var(--space-4);">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg>
+                        </div>
+
+                        <!-- Page Content -->
+                        <div class="docs-content" style="padding: 40px;">
+                            <div id="docs-title" style="font-size: 28px; font-weight: 400; font-family: 'Arial', sans-serif; margin-bottom: 24px; min-height: 32px;"><span id="docs-title-text"></span><span class="docs-caret" id="docs-title-caret" style="opacity: 0;">|</span></div>
+
+                            <div id="docs-h1" style="font-size: 18px; font-weight: 600; margin-top: 24px; margin-bottom: 12px; min-height: 24px;"><span id="docs-h1-text"></span><span class="docs-caret" id="docs-h1-caret" style="opacity: 0;">|</span></div>
+                            <div id="docs-p1" style="font-size: 14px; font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; min-height: 22px;"><span id="docs-p1-text"></span><span class="docs-caret" id="docs-p1-caret" style="opacity: 0;">|</span></div>
+
+                            <div id="docs-h2" style="font-size: 18px; font-weight: 600; margin-top: 24px; margin-bottom: 12px; min-height: 24px;"><span id="docs-h2-text"></span><span class="docs-caret" id="docs-h2-caret" style="opacity: 0;">|</span></div>
+                            <div id="docs-p2" style="font-size: 14px; font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; min-height: 22px;"><span id="docs-p2-text"></span><span class="docs-caret" id="docs-p2-caret" style="opacity: 0;">|</span></div>
+
+                            <div id="docs-h3" style="font-size: 18px; font-weight: 600; margin-top: 24px; margin-bottom: 12px; min-height: 24px;"><span id="docs-h3-text"></span><span class="docs-caret" id="docs-h3-caret" style="opacity: 0;">|</span></div>
+                            <ul style="font-size: 14px; font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; padding-left: 20px; margin: 0; list-style-type: disc;">
+                                <li id="docs-li1" style="min-height: 22px;"><span id="docs-li1-text"></span><span class="docs-caret" id="docs-li1-caret" style="opacity: 0;">|</span></li>
+                                <li id="docs-li2" style="min-height: 22px;"><span id="docs-li2-text"></span><span class="docs-caret" id="docs-li2-caret" style="opacity: 0;">|</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -782,7 +1146,508 @@
                 cursor.style.opacity = cursorOpacity;
                 cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
             }
+
+            // Section 6 & 7 — Workspace & Model Selector
+            const pWorkspace = getProgress('section-workspace');
+            const pModel = getProgress('section-model-select');
+            const workspaceContainer = document.getElementById('workspace-container');
+            const agentPanel = document.getElementById('agent-panel');
+            const workArea = document.getElementById('work-area');
+            const modelDropdown = document.getElementById('model-dropdown');
+            const modelTrigger = document.getElementById('model-selector-trigger');
+            const selectedModelRow = document.getElementById('model-row-8'); // MiniMax M2.7
+
+            if (workspaceContainer) {
+                // Section 6 - Workspace layout entrance
+                if (pWorkspace > 0) {
+                    workspaceContainer.style.opacity = mapRange(pWorkspace, 0.0, 0.4, 0, 1);
+                    workspaceContainer.style.pointerEvents = pWorkspace > 0.4 ? 'auto' : 'none';
+
+                    agentPanel.style.transform = `translateX(${mapRange(pWorkspace, 0.0, 0.4, -20, 0)}px)`;
+                    workArea.style.transform = `translateX(${mapRange(pWorkspace, 0.0, 0.4, 20, 0)}px)`;
+                } else {
+                    workspaceContainer.style.opacity = 0;
+                    workspaceContainer.style.pointerEvents = 'none';
+                }
+            }
+
+            if (pModel > 0 && cursor) {
+                // Section 7 - Model Selector Animation
+
+                const triggerRect = modelTrigger.getBoundingClientRect();
+                const targetX1 = triggerRect.left + triggerRect.width / 2 - 16;
+                const targetY1 = triggerRect.top + triggerRect.height / 2 - 16;
+
+                const rowRect = selectedModelRow ? selectedModelRow.getBoundingClientRect() : null;
+                const targetX2 = rowRect ? rowRect.left + rowRect.width / 2 - 16 : targetX1;
+                const targetY2 = rowRect ? rowRect.top + rowRect.height / 2 - 16 : targetY1 + 150;
+
+                let cursorOpacity = 1;
+                let cursorX = targetX1; // Default to trigger pos
+                let cursorY = targetY1;
+                let cursorScale = 1;
+                let dropdownOpacity = 0;
+                let dropdownScale = 0.95;
+
+                // 1. Progress 0.0-0.2: Cursor moves to trigger (from research card center - approximate)
+                if (pModel <= 0.2) {
+                    // Start from previous cursor position roughly
+                    const startX = window.innerWidth / 2; // Approximate dashboard center
+                    const startY = window.innerHeight / 2;
+                    const moveP = mapRange(pModel, 0.0, 0.2, 0, 1);
+                    cursorX = startX + (targetX1 - startX) * moveP;
+                    cursorY = startY + (targetY1 - startY) * moveP;
+                }
+                // 2. Progress 0.2-0.3: Cursor clicks trigger
+                else if (pModel <= 0.3) {
+                    cursorX = targetX1;
+                    cursorY = targetY1;
+                    cursorScale = pModel < 0.25 ? mapRange(pModel, 0.2, 0.25, 1, 0.8) : mapRange(pModel, 0.25, 0.3, 0.8, 1);
+                    if (pModel > 0.25) {
+                        modelTrigger.style.background = 'var(--border)';
+                    }
+                }
+                // 3. Progress 0.3-0.5: Dropdown opens
+                else if (pModel <= 0.5) {
+                    cursorX = targetX1;
+                    cursorY = targetY1;
+                    dropdownOpacity = mapRange(pModel, 0.3, 0.5, 0, 1);
+                    dropdownScale = mapRange(pModel, 0.3, 0.5, 0.95, 1);
+                    modelTrigger.style.background = 'var(--bg-secondary)';
+                }
+                // 4. Progress 0.5-0.7: Cursor moves down to MiniMax M2.7
+                else if (pModel <= 0.7) {
+                    dropdownOpacity = 1;
+                    dropdownScale = 1;
+                    const moveP = mapRange(pModel, 0.5, 0.7, 0, 1);
+                    cursorX = targetX1 + (targetX2 - targetX1) * moveP;
+                    cursorY = targetY1 + (targetY2 - targetY1) * moveP;
+                }
+                // 5. Progress 0.7-0.8: Cursor clicks MiniMax M2.7
+                else if (pModel <= 0.8) {
+                    dropdownOpacity = 1;
+                    dropdownScale = 1;
+                    cursorX = targetX2;
+                    cursorY = targetY2;
+                    cursorScale = pModel < 0.75 ? mapRange(pModel, 0.7, 0.75, 1, 0.8) : mapRange(pModel, 0.75, 0.8, 0.8, 1);
+
+                    if (selectedModelRow) {
+                        if (pModel > 0.72 && pModel < 0.78) {
+                            selectedModelRow.style.filter = 'brightness(1.1)';
+                        } else {
+                            selectedModelRow.style.filter = 'none';
+                        }
+                    }
+                }
+                // 6. Progress 0.8-1.0: Dropdown closes
+                else {
+                    cursorX = targetX2;
+                    cursorY = targetY2;
+                    dropdownOpacity = mapRange(pModel, 0.8, 1.0, 1, 0);
+                    dropdownScale = mapRange(pModel, 0.8, 1.0, 1, 0.95);
+                    cursorOpacity = mapRange(pModel, 0.8, 1.0, 1, 0); // Fade out cursor for next section
+                }
+
+                if (modelDropdown) {
+                    modelDropdown.style.opacity = dropdownOpacity;
+                    modelDropdown.style.transform = `scale(${dropdownScale})`;
+                    modelDropdown.style.pointerEvents = dropdownOpacity > 0.5 ? 'auto' : 'none';
+                }
+
+                // Override cursor if section 7 is active
+                if (pModel > 0 && pModel < 1.0) {
+                    cursor.style.opacity = cursorOpacity;
+                    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
+                }
+            }
+
+
+            // Section 8 — Edit & Execute
+            const pExec = getProgress('section-edit-execute');
+            const planOutput = document.getElementById('plan-final-output');
+            const planTypingText = document.getElementById('plan-typing-text');
+            const planCaret = document.getElementById('plan-caret');
+            const commandInputArea = document.getElementById('command-input-area');
+            const commandTypingText = document.getElementById('command-typing-text');
+            const commandCaret = document.getElementById('command-caret');
+            const agentActivity = document.getElementById('agent-activity');
+
+            if (pExec > 0 && cursor) {
+                let cursorOpacity = 1;
+                let cursorX = window.innerWidth / 2;
+                let cursorY = window.innerHeight / 2;
+                let cursorScale = 1;
+
+                // Elements target positions
+                const planOutputRect = planOutput ? planOutput.getBoundingClientRect() : null;
+                const commandAreaRect = commandInputArea ? commandInputArea.getBoundingClientRect() : null;
+
+                const targetX1 = planOutputRect ? planOutputRect.left + 220 : window.innerWidth / 2; // Approximate end of "Google Doc"
+                const targetY1 = planOutputRect ? planOutputRect.top + planOutputRect.height / 2 - 16 : window.innerHeight / 2;
+
+                const targetX2 = commandAreaRect ? commandAreaRect.left + 50 : window.innerWidth / 2; // Inside the input area
+                const targetY2 = commandAreaRect ? commandAreaRect.top + commandAreaRect.height / 2 - 16 : window.innerHeight / 2;
+
+                // 1. Progress 0.0-0.1: Cursor moves to final output
+                if (pExec <= 0.1) {
+                    const startX = targetX1 - 100; // Come from left/down
+                    const startY = targetY1 + 100;
+                    const moveP = mapRange(pExec, 0.0, 0.1, 0, 1);
+                    cursorX = startX + (targetX1 - startX) * moveP;
+                    cursorY = startY + (targetY1 - startY) * moveP;
+                }
+                // 2. Progress 0.1-0.15: Cursor clicks final output
+                else if (pExec <= 0.15) {
+                    cursorX = targetX1;
+                    cursorY = targetY1;
+                    cursorScale = mapRange(pExec, 0.1, 0.15, 1, 0.8);
+                }
+                // 3. Progress 0.15-0.3: Type text in plan, cursor moves away
+                else if (pExec <= 0.3) {
+                    const moveP = mapRange(pExec, 0.15, 0.3, 0, 1);
+                    cursorX = targetX1 + (targetX2 - targetX1) * moveP;
+                    cursorY = targetY1 + (targetY2 - targetY1) * moveP;
+                }
+                // 4. Progress 0.3-0.35: Cursor clicks input area
+                else if (pExec <= 0.35) {
+                    cursorX = targetX2;
+                    cursorY = targetY2;
+                    cursorScale = mapRange(pExec, 0.3, 0.35, 1, 0.8);
+                }
+                // 5. Progress 0.35-0.5: Type command
+                else if (pExec <= 0.5) {
+                    cursorX = targetX2;
+                    cursorY = targetY2;
+                }
+                // 6. Progress > 0.5: Agent working, cursor fades out
+                else {
+                    cursorX = targetX2;
+                    cursorY = targetY2;
+                    cursorOpacity = mapRange(pExec, 0.5, 0.6, 1, 0);
+                }
+
+                // Apply text animations
+                if (planTypingText && planCaret) {
+                    const text1 = " → Save to Google Drive /Projects/US-Snacks-2026/";
+                    let charsToShow1 = 0;
+                    if (pExec > 0.15 && pExec <= 0.3) {
+                        charsToShow1 = Math.floor(mapRange(pExec, 0.15, 0.3, 0, text1.length));
+                        planCaret.style.opacity = 1;
+                    } else if (pExec > 0.3) {
+                        charsToShow1 = text1.length;
+                        planCaret.style.opacity = 0;
+                    } else {
+                        charsToShow1 = 0;
+                        planCaret.style.opacity = 0;
+                    }
+                    planTypingText.textContent = text1.substring(0, charsToShow1);
+                }
+
+                if (commandInputArea && commandTypingText && commandCaret) {
+                    // Show command area
+                    commandInputArea.style.opacity = mapRange(pExec, 0.0, 0.1, 0, 1);
+
+                    const text2 = "execute for the US snacks industry in 2026";
+                    let charsToShow2 = 0;
+                    if (pExec > 0.35 && pExec <= 0.5) {
+                        charsToShow2 = Math.floor(mapRange(pExec, 0.35, 0.5, 0, text2.length));
+                        commandCaret.style.opacity = 1;
+                    } else if (pExec > 0.5) {
+                        charsToShow2 = text2.length;
+                        commandCaret.style.opacity = 0;
+                    } else {
+                        charsToShow2 = 0;
+                        commandCaret.style.opacity = 0;
+                    }
+                    commandTypingText.textContent = text2.substring(0, charsToShow2);
+                }
+
+                if (agentActivity) {
+                    if (pExec > 0.5) {
+                        agentActivity.style.opacity = 1;
+
+                        // Sequence messages
+                        const msg1 = document.getElementById('agent-msg-1');
+                        const msg2 = document.getElementById('agent-msg-2');
+                        const msg3 = document.getElementById('agent-msg-3');
+
+                        if (msg1) {
+                            msg1.style.opacity = mapRange(pExec, 0.5, 0.55, 0, 1);
+                            msg1.style.transform = `translateY(${mapRange(pExec, 0.5, 0.55, 10, 0)}px)`;
+                        }
+                        if (msg2) {
+                            msg2.style.opacity = mapRange(pExec, 0.6, 0.65, 0, 1);
+                            msg2.style.transform = `translateY(${mapRange(pExec, 0.6, 0.65, 10, 0)}px)`;
+                        }
+                        if (msg3) {
+                            msg3.style.opacity = mapRange(pExec, 0.7, 0.75, 0, 1);
+                            msg3.style.transform = `translateY(${mapRange(pExec, 0.7, 0.75, 10, 0)}px)`;
+                        }
+                    } else {
+                        agentActivity.style.opacity = 0;
+                    }
+                }
+
+                if (pExec > 0 && pExec < 1.0) {
+                    // If pModel is finished, override cursor
+                    if (getProgress('section-model-select') >= 1.0) {
+                        cursor.style.opacity = cursorOpacity;
+                        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
+                    }
+                }
+            }
+
+
+            // Section 9 — Workspace Tab / File Tree
+            const pTree = getProgress('section-workspace-tab');
+            const tabPlan = document.getElementById('tab-plan');
+            const tabWorkspace = document.getElementById('tab-workspace');
+            const contentPlan = document.getElementById('content-plan');
+            const contentWorkspace = document.getElementById('content-workspace');
+
+            if (pTree > 0 && cursor) {
+                let cursorOpacity = 1;
+                let cursorX = window.innerWidth / 2;
+                let cursorY = window.innerHeight / 2;
+                let cursorScale = 1;
+
+                const tabRect = tabWorkspace ? tabWorkspace.getBoundingClientRect() : null;
+                const targetX1 = tabRect ? tabRect.left + tabRect.width / 2 : window.innerWidth / 2;
+                const targetY1 = tabRect ? tabRect.top + tabRect.height / 2 : window.innerHeight / 2;
+
+                // 1. Progress 0.0-0.1: Cursor moves to Workspace tab
+                if (pTree <= 0.1) {
+                    const commandArea = document.getElementById('command-input-area');
+                    const cRect = commandArea ? commandArea.getBoundingClientRect() : null;
+                    const startX = cRect ? cRect.left + 50 : window.innerWidth / 2;
+                    const startY = cRect ? cRect.top + 16 : window.innerHeight / 2;
+
+                    const moveP = mapRange(pTree, 0.0, 0.1, 0, 1);
+                    cursorX = startX + (targetX1 - startX) * moveP;
+                    cursorY = startY + (targetY1 - startY) * moveP;
+                }
+                // 2. Progress 0.1-0.2: Cursor clicks Workspace tab
+                else if (pTree <= 0.2) {
+                    cursorX = targetX1;
+                    cursorY = targetY1;
+                    cursorScale = mapRange(pTree, 0.1, 0.2, 1, 0.8);
+                }
+                // 3. Progress > 0.2: Tabs switch, cursor fades out
+                else {
+                    cursorX = targetX1;
+                    cursorY = targetY1;
+                    cursorOpacity = mapRange(pTree, 0.2, 0.3, 1, 0);
+                }
+
+                // Override cursor
+                if (pTree < 1.0) {
+                    cursor.style.opacity = cursorOpacity;
+                    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
+                }
+
+                // Tab switching logic based on progress
+                if (tabPlan && tabWorkspace && contentPlan && contentWorkspace) {
+                    if (pTree > 0.15) {
+                        tabPlan.style.color = 'var(--text-secondary)';
+                        tabPlan.style.borderBottomColor = 'transparent';
+                        tabWorkspace.style.color = 'var(--blue-dark)';
+                        tabWorkspace.style.borderBottomColor = 'var(--blue-mid)';
+
+                        contentPlan.style.opacity = mapRange(pTree, 0.15, 0.2, 1, 0);
+                        contentWorkspace.style.opacity = mapRange(pTree, 0.2, 0.25, 0, 1);
+                        contentPlan.style.pointerEvents = 'none';
+                        contentWorkspace.style.pointerEvents = 'auto';
+                    } else {
+                        tabPlan.style.color = 'var(--blue-dark)';
+                        tabPlan.style.borderBottomColor = 'var(--blue-mid)';
+                        tabWorkspace.style.color = 'var(--text-secondary)';
+                        tabWorkspace.style.borderBottomColor = 'transparent';
+
+                        contentPlan.style.opacity = 1;
+                        contentWorkspace.style.opacity = 0;
+                        contentPlan.style.pointerEvents = 'auto';
+                        contentWorkspace.style.pointerEvents = 'none';
+                    }
+                }
+
+                // File tree animation logic
+                if (pTree > 0.2) {
+                    const treeRoot = document.getElementById('tree-root');
+                    const treeMeta = document.getElementById('tree-meta');
+                    const treeSources = document.getElementById('tree-sources');
+                    const sourcesDot = document.getElementById('sources-dot');
+                    const treeInput = document.getElementById('tree-input');
+
+                    const setTreeItemOpacity = (el, pStart, pEnd) => {
+                        if (el) {
+                            el.style.opacity = mapRange(pTree, pStart, pEnd, 0, 1);
+                            el.style.transform = `translateX(${mapRange(pTree, pStart, pEnd, -10, 0)}px)`;
+                        }
+                    };
+
+                    setTreeItemOpacity(treeRoot, 0.2, 0.25);
+                    setTreeItemOpacity(treeMeta, 0.25, 0.3);
+                    setTreeItemOpacity(treeSources, 0.3, 0.35);
+
+                    if (sourcesDot) {
+                        sourcesDot.style.opacity = pTree > 0.35 ? 1 : 0;
+                    }
+
+                    setTreeItemOpacity(treeInput, 0.35, 0.4);
+
+                    // 10 files, from 0.4 to 0.9 (0.05 per file)
+                    for (let i = 0; i < 10; i++) {
+                        const fileEl = document.getElementById(`tree-file-${i}`);
+                        const pStart = 0.4 + (i * 0.05);
+                        const pEnd = pStart + 0.05;
+                        setTreeItemOpacity(fileEl, pStart, pEnd);
+                    }
+                } else {
+                    // Reset tree styles if we scroll back up
+                    const items = document.querySelectorAll('.tree-item');
+                    items.forEach(el => {
+                        el.style.opacity = 0;
+                        el.style.transform = 'translateX(-10px)';
+                    });
+                    const dot = document.getElementById('sources-dot');
+                    if(dot) dot.style.opacity = 0;
+                }
+            }
+
+
+            // Section 10 — Preview Tab / Google Docs
+            const pPreview = getProgress('section-preview-tab');
+            const tabPreview = document.getElementById('tab-preview');
+            const contentPreview = document.getElementById('content-preview');
+
+            if (pPreview > 0 && cursor) {
+                let cursorOpacity = 1;
+                let cursorX = window.innerWidth / 2;
+                let cursorY = window.innerHeight / 2;
+                let cursorScale = 1;
+
+                const tabRect = tabPreview ? tabPreview.getBoundingClientRect() : null;
+                const targetX1 = tabRect ? tabRect.left + tabRect.width / 2 : window.innerWidth / 2;
+                const targetY1 = tabRect ? tabRect.top + tabRect.height / 2 : window.innerHeight / 2;
+
+                // 1. Progress 0.0-0.1: Cursor moves to Preview tab
+                if (pPreview <= 0.1) {
+                    const workspaceTab = document.getElementById('tab-workspace');
+                    const wRect = workspaceTab ? workspaceTab.getBoundingClientRect() : null;
+                    const startX = wRect ? wRect.left + wRect.width / 2 : window.innerWidth / 2;
+                    const startY = wRect ? wRect.top + wRect.height / 2 : window.innerHeight / 2;
+
+                    const moveP = mapRange(pPreview, 0.0, 0.1, 0, 1);
+                    cursorX = startX + (targetX1 - startX) * moveP;
+                    cursorY = startY + (targetY1 - startY) * moveP;
+                }
+                // 2. Progress 0.1-0.15: Cursor clicks Preview tab
+                else if (pPreview <= 0.15) {
+                    cursorX = targetX1;
+                    cursorY = targetY1;
+                    cursorScale = mapRange(pPreview, 0.1, 0.15, 1, 0.8);
+                }
+                // 3. Progress > 0.15: Tabs switch, cursor fades out
+                else {
+                    cursorX = targetX1;
+                    cursorY = targetY1;
+                    cursorOpacity = mapRange(pPreview, 0.15, 0.2, 1, 0);
+                }
+
+                if (pPreview < 1.0) {
+                    cursor.style.opacity = cursorOpacity;
+                    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) scale(${cursorScale})`;
+                }
+
+                // Tab switching logic
+                if (tabWorkspace && tabPreview && contentWorkspace && contentPreview) {
+                    if (pPreview > 0.12) {
+                        tabWorkspace.style.color = 'var(--text-secondary)';
+                        tabWorkspace.style.borderBottomColor = 'transparent';
+                        tabPreview.style.color = 'var(--blue-dark)';
+                        tabPreview.style.borderBottomColor = 'var(--blue-mid)';
+
+                        contentWorkspace.style.opacity = mapRange(pPreview, 0.12, 0.17, 1, 0);
+                        contentPreview.style.opacity = mapRange(pPreview, 0.17, 0.22, 0, 1);
+                        contentWorkspace.style.pointerEvents = 'none';
+                        contentPreview.style.pointerEvents = 'auto';
+                    } else {
+                        tabWorkspace.style.color = 'var(--blue-dark)';
+                        tabWorkspace.style.borderBottomColor = 'var(--blue-mid)';
+                        tabPreview.style.color = 'var(--text-secondary)';
+                        tabPreview.style.borderBottomColor = 'transparent';
+
+                        contentWorkspace.style.opacity = 1;
+                        contentPreview.style.opacity = 0;
+                        contentWorkspace.style.pointerEvents = 'auto';
+                        contentPreview.style.pointerEvents = 'none';
+                    }
+                }
+
+                // Document typing logic
+                if (pPreview > 0.15) {
+                    const texts = [
+                        { id: 'docs-title', text: "US Snacks Industry Analysis — 2026", start: 0.15, end: 0.25 },
+                        { id: 'docs-h1', text: "Executive Summary", start: 0.25, end: 0.3 },
+                        { id: 'docs-p1', text: "The US snacks industry is projected to reach $150B by 2026, driven by health-conscious consumer habits and premiumization of everyday products.", start: 0.3, end: 0.5 },
+                        { id: 'docs-h2', text: "Market Size & Growth", start: 0.5, end: 0.55 },
+                        { id: 'docs-p2', text: "Year-over-year growth remains steady at 4.2%. Major conglomerates are actively acquiring niche organic brands to capture the younger demographic segment.", start: 0.55, end: 0.75 },
+                        { id: 'docs-h3', text: "Key Players", start: 0.75, end: 0.8 },
+                        { id: 'docs-li1', text: "PepsiCo (Frito-Lay): 28% market share, dominating salty snacks.", start: 0.8, end: 0.9 },
+                        { id: 'docs-li2', text: "Mondelez International: Leading in sweet snacks and cookies.", start: 0.9, end: 1.0 }
+                    ];
+
+                    let activeCaretShown = false;
+
+                    for (const item of texts) {
+                        const elText = document.getElementById(`${item.id}-text`);
+                        const elCaret = document.getElementById(`${item.id}-caret`);
+
+                        if (elText && elCaret) {
+                            if (pPreview >= item.start && pPreview <= item.end) {
+                                const charsToShow = Math.floor(mapRange(pPreview, item.start, item.end, 0, item.text.length));
+                                elText.textContent = item.text.substring(0, charsToShow);
+                                elCaret.style.opacity = 1;
+                                activeCaretShown = true;
+                            } else if (pPreview > item.end) {
+                                elText.textContent = item.text;
+                                elCaret.style.opacity = 0;
+                            } else {
+                                elText.textContent = "";
+                                elCaret.style.opacity = 0;
+                            }
+                        }
+                    }
+
+                    // Update Agent Activity messages
+                    const msg4 = document.getElementById('agent-msg-4');
+                    const msg5 = document.getElementById('agent-msg-5');
+                    const msg6 = document.getElementById('agent-msg-6');
+
+                    if (msg4) {
+                        msg4.style.opacity = mapRange(pPreview, 0.2, 0.25, 0, 1);
+                        msg4.style.transform = `translateY(${mapRange(pPreview, 0.2, 0.25, 10, 0)}px)`;
+                    }
+                    if (msg5) {
+                        msg5.style.opacity = mapRange(pPreview, 0.4, 0.45, 0, 1);
+                        msg5.style.transform = `translateY(${mapRange(pPreview, 0.4, 0.45, 10, 0)}px)`;
+                    }
+                    if (msg6) {
+                        msg6.style.opacity = mapRange(pPreview, 0.7, 0.75, 0, 1);
+                        msg6.style.transform = `translateY(${mapRange(pPreview, 0.7, 0.75, 10, 0)}px)`;
+                    }
+                }
+            }
+
         }
+
+
+
+
+
+
+
+
 
         window.addEventListener('scroll', () => {
             requestAnimationFrame(calculateScrollProgress);
