@@ -22,7 +22,7 @@ Implement the opening narrative that sets up the problem before the product appe
 
 - **Content:** Centered text (Hero/Narrative size — 48px, weight 600):
 
-  > AI-native engineers have: Jules, Codex, Claude Code, OpenHands, and a dozen powerful tools.
+  > AI-native engineers have: Claude Code, Codex, Jules, OpenHands, and a dozen powerful tools.
 
 - **Animation:**
   - Fades in as progress reaches ~0.2

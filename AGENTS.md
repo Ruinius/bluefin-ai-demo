@@ -32,6 +32,7 @@ The following documentation files should be maintained and checked for updates a
 - `README.md`: Basic project information and setup.
 - `docs/design.md`: Design overview and index — links to the 7 implementation sections below.
 - `docs/style_guide.md`: Color palette, typography, spacing, component specifications, animation timing, icon inventory.
+- `docs/fixes_needed.md`: List of issues and improvements to be fixed.
 - `AGENTS.md`: This file, tracking architecture and agent instructions.
 
 ### Implementation Sections (in `docs/sections/`)
