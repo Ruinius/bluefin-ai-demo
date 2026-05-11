@@ -5,18 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bluefin Demo</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
         :root {
             /* 1. Color Palette */
             /* Base Colors */
-            --bg-primary: #FAFBFD;
+            --bg-primary: #FAF9F7;
             --bg-secondary: #F0F2F5;
             --bg-sidebar: #1A1F2E;
-            --text-primary: #1A1A2E;
-            --text-secondary: #6B7280;
+            --text-primary: #1A1A1A;
+            --text-secondary: #5C5C5C;
             --text-inverse: #FFFFFF;
             --border: #E5E7EB;
 
-            /* Accent / Ocean Gradient */
+            /* Accent Colors */
+            --accent-color: #1E40AF;
+
+            /* Keep some of the old ones for the product frame */
             --blue-light: #60A5FA;
             --blue-mid: #3B82F6;
             --blue-dark: #1E40AF;
@@ -35,6 +40,8 @@
 
             /* 2. Typography */
             /* Font Stack */
+            --font-headings: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Source Serif 4', serif;
             --font-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Inter', Roboto, Helvetica, Arial, sans-serif;
             --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
 
@@ -88,6 +95,7 @@
 
         /* Typography Classes based on Type Scale */
         .text-hero {
+            font-family: var(--font-headings);
             font-size: 48px;
             font-weight: 600;
             line-height: 1.2;
@@ -95,6 +103,7 @@
         }
 
         .text-h1 {
+            font-family: var(--font-headings);
             font-size: 32px;
             font-weight: 600;
             line-height: 1.3;
@@ -102,6 +111,7 @@
         }
 
         .text-h2 {
+            font-family: var(--font-headings);
             font-size: 24px;
             font-weight: 600;
             line-height: 1.35;
@@ -109,6 +119,7 @@
         }
 
         .text-h3 {
+            font-family: var(--font-headings);
             font-size: 18px;
             font-weight: 500;
             line-height: 1.4;
@@ -116,6 +127,7 @@
         }
 
         .text-body {
+            font-family: var(--font-body);
             font-size: 15px;
             font-weight: 400;
             line-height: 1.6;
@@ -123,6 +135,7 @@
         }
 
         .text-caption {
+            font-family: var(--font-body);
             font-size: 13px;
             font-weight: 400;
             line-height: 1.5;
@@ -465,6 +478,54 @@
             color: #5F6368;
             cursor: default;
         }
+        /* Style Elements for Editorial Vibe */
+        .drop-cap::first-letter {
+            font-family: var(--font-headings);
+            font-size: 3.5em;
+            font-weight: bold;
+            float: left;
+            margin-right: 12px;
+            line-height: 0.8;
+            color: var(--accent-color);
+        }
+
+        .pull-quote {
+            font-family: var(--font-headings);
+            font-style: italic;
+            font-size: 24px;
+            color: var(--text-primary);
+            border-left: 3px solid var(--accent-color);
+            padding-left: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .editorial-hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 40px 0;
+        }
+
+        /* Narrative Specific Typography (Non-product portion) */
+        #narrative-container .text-hero,
+        #epilogue-container .text-hero {
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        #narrative-container .text-h2 {
+            font-size: 24px;
+            font-style: italic;
+        }
+
+        #narrative-container .text-body {
+            font-size: 18px;
+        }
+
+        #narrative-container .text-caption {
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -491,23 +552,23 @@
         </div>
 
         <!-- Section 0: Opening Statement -->
-        <div id="content-opening" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 800px;">
+        <div id="content-opening" class="text-hero drop-cap" style="text-align: left; position: absolute; opacity: 0; width: 80%; max-width: 800px;">
             AI-native engineers have: Jules, Codex, Claude Code, OpenHands, and a dozen powerful tools.
         </div>
 
         <!-- Section 1: The Problem -->
-        <div id="content-problem" style="text-align: center; position: absolute; width: 80%; max-width: 900px; display: flex; flex-direction: column; gap: var(--space-6);">
-            <div id="problem-header" class="text-hero" style="opacity: 0;">AI-native business folks are saying:</div>
+        <div id="content-problem" style="text-align: left; position: absolute; width: 80%; max-width: 800px; display: flex; flex-direction: column; gap: var(--space-6);">
+            <div id="problem-header" class="text-hero drop-cap" style="opacity: 0;">AI-native business user experience is atrocious. My colleagues, friends and family are saying:</div>
 
-            <div id="problem-quote-1" class="text-h2" style="font-style: italic; color: var(--text-primary); opacity: 0;">
+            <div id="problem-quote-1" class="pull-quote" style="opacity: 0;">
                 "What is a markdown? I need a Google Docs or at least a DOCX."
             </div>
 
-            <div id="problem-quote-2" class="text-h2" style="font-style: italic; color: var(--text-primary); opacity: 0;">
+            <div id="problem-quote-2" class="pull-quote" style="opacity: 0;">
                 "I just spent two hours trying to set up a MCP server for Databricks. What is MCP?"
             </div>
 
-            <div id="problem-quote-3" class="text-h2" style="font-style: italic; color: var(--text-primary); opacity: 0;">
+            <div id="problem-quote-3" class="pull-quote" style="opacity: 0;">
                 "Holy crap, running Claude for an hour on my presentation cost $150."
             </div>
         </div>
@@ -929,17 +990,17 @@
 
     <!-- Fixed Epilogue Container for Part 7 -->
     <div id="epilogue-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 20; pointer-events: none;">
-        <div id="content-closing-1" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
+        <div id="content-closing-1" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 800px; color: var(--text-primary);">
             A business-first AI agent
         </div>
-        <div id="content-closing-2" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
+        <div id="content-closing-2" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 800px; color: var(--text-primary);">
             Cost conscious with the right AI model for every task
         </div>
-        <div id="content-closing-3" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
+        <div id="content-closing-3" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 800px; color: var(--text-primary);">
             On-prem and hyper-secure deployments available
         </div>
         <!-- End State: All messages stacked + GitHub star link -->
-        <div id="content-closing-end" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-6); opacity: 0; width: 80%; max-width: 900px; text-align: center;">
+        <div id="content-closing-end" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-6); opacity: 0; width: 80%; max-width: 800px; text-align: center;">
             <div class="text-hero" style="color: var(--text-primary);">A business-first AI agent</div>
             <div class="text-hero" style="color: var(--text-primary);">Cost conscious with the right AI model for every task</div>
             <div class="text-hero" style="color: var(--text-primary);">On-prem and hyper-secure deployments available</div>

@@ -9,30 +9,25 @@ This document defines the visual language for the Bluefin demo. Every element sh
 ### Base Colors
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--bg-primary` | `#FAFBFD` | Page background — warm off-white |
+| `--bg-primary` | `#FAF9F7` | Page background — warm cream |
 | `--bg-secondary` | `#F0F2F5` | Card backgrounds, input fields |
 | `--bg-sidebar` | `#1A1F2E` | Left sidebar — dark navy |
-| `--text-primary` | `#1A1A2E` | Headings, primary text |
-| `--text-secondary` | `#6B7280` | Descriptions, timestamps, muted text |
+| `--text-primary` | `#1A1A1A` | Headings, primary text — charcoal |
+| `--text-secondary` | `#5C5C5C` | Descriptions, muted text — lighter charcoal |
 | `--text-inverse` | `#FFFFFF` | Text on dark backgrounds |
 | `--border` | `#E5E7EB` | Subtle borders, dividers |
 
-### Accent / Ocean Gradient
+### Accent Colors
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--blue-light` | `#60A5FA` | Light blue — highlights, hover states |
-| `--blue-mid` | `#3B82F6` | Mid blue — primary buttons, active states |
-| `--blue-dark` | `#1E40AF` | Dark blue — emphasis, headings |
-| `--violet` | `#7C3AED` | Violet accent — special highlights, tags |
-| `--violet-light` | `#A78BFA` | Light violet — secondary accents |
+| `--accent-color` | `#1E40AF` | Dark blue accent — section starts, pull quotes, highlights |
+
+> **Note:** The palette has transitioned from the original "app" feel to a more editorial, literary vibe with cream, charcoal, and a dark blue accent like the ocean.
 
 ### Gradient Definitions
 ```css
-/* Primary brand gradient — used sparingly for key CTAs and the logo mark */
+/* Legacy Ocean gradient — used sparingly if needed */
 --gradient-ocean: linear-gradient(135deg, #60A5FA 0%, #3B82F6 40%, #7C3AED 100%);
-
-/* Subtle background gradient — for hero sections or large containers */
---gradient-subtle: linear-gradient(180deg, #FAFBFD 0%, #EEF2FF 100%);
 
 /* Sidebar gradient */
 --gradient-sidebar: linear-gradient(180deg, #1A1F2E 0%, #0F172A 100%);
@@ -50,24 +45,28 @@ This document defines the visual language for the Bluefin demo. Every element sh
 ## 2. Typography
 
 ### Font Stack
-Use the system font stack for premium feel without external dependencies:
+Integrated Google Fonts for an editorial vibe:
 ```css
+--font-headings: 'Cormorant Garamond', Georgia, serif;
+--font-body: 'Source Serif 4', serif;
 --font-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Inter', Roboto, Helvetica, Arial, sans-serif;
 --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
 ```
 
-> **Note:** If we decide to embed Inter or Outfit from Google Fonts as base64, this will be done inline within `<style>` tags to preserve zero-dependency status.
+> **Note:** Fonts are loaded via Google Fonts in the current implementation to achieve the requested editorial feel.
 
 ### Type Scale
 | Level | Size | Weight | Line Height | Letter Spacing | Usage |
 |-------|------|--------|-------------|----------------|-------|
-| Hero / Narrative | 48px | 600 | 1.2 | -0.02em | Prologue & epilogue messages |
+| Hero / Narrative | 32px | 600 | 1.2 | -0.01em | Prologue & epilogue messages (overridden for narrative) |
 | H1 | 32px | 600 | 1.3 | -0.01em | Page titles ("Your workspaces") |
 | H2 | 24px | 600 | 1.35 | -0.005em | Section headers |
 | H3 | 18px | 500 | 1.4 | 0 | Card titles, tab labels |
 | Body | 15px | 400 | 1.6 | 0 | Paragraph text, descriptions |
 | Caption | 13px | 400 | 1.5 | 0.01em | Timestamps, small labels |
 | Mono | 13px | 400 | 1.5 | 0 | File names, code, YAML |
+
+> **Note on Narrative Text:** For the non-product portion (prologue/epilogue), font sizes have been made more similar (32px for hero, 24px for H2/quotes) to maintain an editorial flow.
 
 ### Text Rendering
 ```css

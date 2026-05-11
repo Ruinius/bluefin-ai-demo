@@ -6,11 +6,12 @@ This file tracks issues and improvements needed for the Bluefin AI demo.
 
 ### Global / Aesthetics
 
-- [ ] **Revamp Typography and Color Palette**: Transition from the current "app" feel to a more editorial, literary, and thoughtful vibe.
+- [x] **Revamp Typography and Color Palette**: Transition from the current "app" feel to a more editorial, literary, and thoughtful vibe.
   - **Vibe**: Editorial, literary, thoughtful.
   - **Typography**: Integrate `Cormorant Garamond` for headings and `Source Serif 4` for body text.
-  - **Colors**: Use a warm cream background (`#faf9f7`), charcoal text (`#1a1a1a`), and a crimson accent color (`#c41e3a`).
+  - **Colors**: Use a warm cream background (`#faf9f7`), charcoal text (`#1a1a1a`), and a dark blue accent color like the ocean.
   - **Style Elements**: Implement drop caps for section starts, pull quotes for emphasis, and elegant horizontal rules for section breaks.
+  - **Font Size**: for all the non-product portion, the font sizes should be similar.
 
 ### Section 0 — Opening Statement
 
