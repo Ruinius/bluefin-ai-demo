@@ -1,5 +1,10 @@
-Using CPython 3.12.13 interpreter at: /home/jules/.pyenv/versions/3.12.13/bin/python3.12
-Creating virtual environment at: .venv
-127.0.0.1 - - [10/May/2026 22:03:23] "HEAD / HTTP/1.1" 200 -
-127.0.0.1 - - [10/May/2026 22:04:18] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [10/May/2026 22:04:49] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/May/2026 01:37:09] code 404, message File not found
+127.0.0.1 - - [11/May/2026 01:37:09] "GET /robots.txt HTTP/1.1" 404 -
+127.0.0.1 - - [11/May/2026 01:37:12] "GET /index.html HTTP/1.0" 200 -
+127.0.0.1 - - [11/May/2026 01:37:49] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/May/2026 01:38:16] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/May/2026 01:39:13] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/May/2026 01:40:35] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/May/2026 01:41:58] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/May/2026 01:42:21] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [11/May/2026 01:42:34] "GET /index.html HTTP/1.1" 200 -
