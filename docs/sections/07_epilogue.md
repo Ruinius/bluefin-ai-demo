@@ -13,6 +13,7 @@ Build the closing sequence that fades out the product UI and presents three fina
 As the user scrolls past Section 10 (Preview tab), the entire product UI — sidebar, workspace, panels, everything — fades out together. By the start of Section 11, the screen should be back to a clean background.
 
 **Animation:**
+
 - Use the end of Section 10's progress (0.85–1.0) or early Section 11 progress (0.0–0.2)
 - All product UI elements fade to opacity 0 and can be hidden (`display: none` or `visibility: hidden`)
 - The sidebar, which has been persistent since Section 2, also fades out here
@@ -26,11 +27,13 @@ Centered on screen, same style as the prologue:
 > **A business-first AI agent**
 
 **Animation:**
+
 - Fades in at progress 0.1–0.3
 - Holds at full opacity 0.3–0.7
 - Fades out at progress 0.7–0.9
 
 **Styling:**
+
 - Font: Hero/Narrative size (48px, weight 600, line-height 1.2)
 - Color: `var(--text-primary)`
 - Centered both horizontally and vertically
@@ -57,14 +60,16 @@ Centered on screen:
 Same animation pattern and styling as Sections 11–12.
 
 **End state:**
-- After Section 13 fades out, the page ends
-- Optionally, a very subtle "End of presentation" or the Bluefin logo can remain visible at the bottom
-- The page should not allow further scrolling past the last section
+
+- After Section 13's individual fade-in/out cycle, a final scroll section reveals all three closing messages stacked vertically (visible simultaneously)
+- Below the three messages, a smaller caption-sized message reads: "If you liked this presentation, please let me know by giving a star to:" followed by a clickable link to `https://github.com/Ruinius/bluefin-ai-demo`
+- The link must be a real `<a>` tag with `target="_blank"` and `pointer-events: auto` so it is clickable
+- The page should not allow further scrolling past this final section
 
 ## What NOT to Build
 
-- No interactive elements in the epilogue — purely visual
-- No links or buttons — this is a passive scroll presentation
+- No interactive elements in the epilogue — purely visual (except the GitHub star link in the end state)
+- No buttons — this is a passive scroll presentation
 
 ## Final Checklist
 

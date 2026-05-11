@@ -11,6 +11,8 @@ Implement the opening narrative that sets up the problem before the product appe
 ### Section 0.0 — Instructions (`section-instructions`, 100vh)
 
 - **Content:** Centered text: "This is a zero-dependency HTML presentation. Scroll down to proceed."
+  - Below the scroll arrow, a smaller caption: "Built with [github.com/Ruinius/bluefin-ai-demo](https://github.com/Ruinius/bluefin-ai-demo). If you liked this presentation, please let me know by giving a star."
+  - The link must be a real `<a>` tag with `target="_blank"` and `pointer-events: auto` so it is clickable
 - **Animation:** A simple, subtle animated arrow or mouse icon below the text, indicating "scroll down"
 - **Behavior:**
   - Fades in on page load (not scroll-dependent)
