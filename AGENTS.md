@@ -23,6 +23,7 @@ This file documents the architectural patterns, module boundaries, and documenta
 - **Customizable recipient**: A `recipientName` variable at the top of the script section personalizes the "Welcome back" message.
 - **Zero dependencies**: No external CSS, JS, fonts (unless base64-inlined), or image files.
 - **Premium aesthetic**: Apple/Tesla-inspired. Light background, ocean-themed accent colors (light blue → dark blue → violet).
+- **Product frame showcase**: The product UI (Sections 2–10) is displayed inside a centered, rounded-corner window (`#product-frame`) floating on a dark backdrop (`#dark-backdrop`). The visual flow is: light background (prologue) → dark backdrop + product frame (demo) → light background (epilogue). All product UI (sidebar, dashboard, workspace) lives inside `#product-frame` using `position: absolute`. See `docs/style_guide.md` Section 9.
 
 ## Documentation Index
 

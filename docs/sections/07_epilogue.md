@@ -4,19 +4,26 @@
 
 ## Objective
 
-Build the closing sequence that fades out the product UI and presents three final messages, one at a time.
+Build the closing sequence that fades out the product frame, transitions the dark backdrop back to a light background, and presents three final messages on the clean light background.
 
 ## Components
 
-### Product UI Fade-Out
+### Product Frame Fade-Out & Background Transition
 
-As the user scrolls past Section 10 (Preview tab), the entire product UI — sidebar, workspace, panels, everything — fades out together. By the start of Section 11, the screen should be back to a clean background.
+As the user scrolls past Section 10 (Preview tab), the entire product frame — sidebar, workspace, panels, everything inside it — fades out together. Then the dark backdrop transitions back to the light background. By the start of Section 11, the screen should be back to the same clean light background (`var(--bg-primary)`) that the prologue used.
 
-**Animation:**
+**Animation (two phases):**
 
-- Use the end of Section 10's progress (0.85–1.0) or early Section 11 progress (0.0–0.2)
-- All product UI elements fade to opacity 0 and can be hidden (`display: none` or `visibility: hidden`)
-- The sidebar, which has been persistent since Section 2, also fades out here
+**Phase 1 — Product frame fades out:**
+- Use the end of Section 10's progress (0.85–1.0) or early Section 11 progress (0.0–0.15)
+- The entire product frame (including all contents — sidebar, workspace, panels) fades to opacity 0
+- Can be hidden (`display: none` or `visibility: hidden`) after fade completes
+
+**Phase 2 — Dark backdrop transitions to light:**
+- Section 11 progress (0.0–0.3)
+- The background transitions from `var(--bg-dark-backdrop)` (`#0D1117`) back to `var(--bg-primary)` (`#FAFBFD`)
+- This creates a satisfying visual bookend: light → dark (product) → light (closing messages)
+- The closing messages should NOT appear until the background has fully transitioned to light
 
 ---
 
@@ -36,8 +43,8 @@ Centered on screen, same style as the prologue:
 
 - Font: Hero/Narrative size (48px, weight 600, line-height 1.2)
 - Color: `var(--text-primary)`
-- Centered both horizontally and vertically
-- Background: `var(--bg-primary)` or `var(--gradient-subtle)`
+- Centered both horizontally and vertically on the viewport
+- Background: `var(--bg-primary)` — light, matching the prologue aesthetic
 
 ---
 
@@ -77,8 +84,8 @@ After implementing Part 7, the complete demo should:
 
 - [ ] Start at Section 0.0 (instructions)
 - [ ] Scroll through the narrative prologue (Sections 0–2)
-- [ ] Transition to the product UI with sidebar (Section 2–3)
-- [ ] Show the welcome screen (Section 3)
+- [ ] Transition to dark backdrop with centered product frame (Section 2)
+- [ ] Show the welcome screen inside the product frame (Section 3)
 - [ ] Display the dashboard (Section 4)
 - [ ] Animate cursor clicking Research (Section 5)
 - [ ] Show the workspace layout with Plan tab (Section 6)
@@ -86,6 +93,6 @@ After implementing Part 7, the complete demo should:
 - [ ] Animate plan editing and execution (Section 8)
 - [ ] Show file tree populating in Workspace tab (Section 9)
 - [ ] Show Google Docs preview being written (Section 10)
-- [ ] Fade out product UI and show three closing messages (Sections 11–13)
+- [ ] Fade out product frame, transition dark backdrop back to light, and show three closing messages (Sections 11–13)
 - [ ] All animations are reversible (scrolling up plays them backwards)
 - [ ] Total scroll distance is approximately 1,550vh

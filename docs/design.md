@@ -19,7 +19,9 @@ This project is a zero-dependency HTML demo of the Bluefin application, designed
 
 - **Premium consumer feel**: Styling should evoke Apple or Tesla — clean, confident, spacious.
 - **Light and approachable**: A light base color scheme that does not intimidate business users.
+- **Showcase presentation**: The product UI appears as a centered window (slightly smaller than a laptop screen) floating on a dark backdrop — like a product being showcased on stage.
 - **Scroll is the only input**: Every transition is controlled by scrolling down (advance) or scrolling up (reverse). No click interactions are required from the viewer — all "clicks" within the product demo are animated.
+- **Visual bookending**: The narrative opens on a light background, transitions to a dark backdrop for the product showcase, then returns to light for the closing messages.
 
 ---
 
@@ -73,17 +75,17 @@ These set up the problem before showing the product.
 - **Section 0.0** — Instructions: scroll-down prompt
 - **Section 0** — Opening: "AI-native engineers have powerful tools..."
 - **Section 1** — The Problem: three quotes from business users
-- **Section 2** — Transition: fade to product UI
+- **Section 2** — Transition: background darkens, product frame appears
 
 ### Product Demo (Sections 3–10)
 → See Parts [3](sections/03_sidebar_welcome.md), [4](sections/04_dashboard_cursor.md), [5](sections/05_workspace_model.md), [6](sections/06_execution_preview.md)
 
-From this point, a persistent **left sidebar** is visible and remains throughout.
+From this point, the **product frame** — a centered, rounded-corner window on a dark backdrop — is visible. All product UI lives inside this frame.
 
 #### Persistent Left Sidebar
 → See [Part 3: Sidebar](sections/03_sidebar_welcome.md)
 
-A thin vertical band on the far left containing (top to bottom):
+A thin vertical band on the left side **inside the product frame** containing (top to bottom):
 
 - **Bluefin logo** (top)
 - **User avatar** — small circular profile picture
@@ -154,7 +156,7 @@ Cursor clicks Preview tab. Google Docs-style document is written live by the age
 ### Closing Epilogue (Sections 11–13)
 → See [Part 7: Epilogue](sections/07_epilogue.md)
 
-Three closing messages, each centered on screen:
+The product frame fades out, the dark backdrop transitions back to the light background, and three closing messages appear:
 
 1. **"A business-first AI agent"**
 2. **"Cost conscious with the right AI model for every task"**

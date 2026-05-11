@@ -10,7 +10,7 @@ Build the Research workspace layout (the main working view of the app) and the a
 
 ### Section 6 — Research Workspace Layout (`section-workspace`, 100vh)
 
-The main area (right of sidebar) splits into **left and right halves**.
+The main area inside the product frame (right of sidebar) splits into **left and right halves**.
 
 **Left Half — AI Agent Panel**
 

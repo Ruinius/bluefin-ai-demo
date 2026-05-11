@@ -10,13 +10,13 @@ Build the persistent left sidebar and the welcome screen that appears after the 
 
 ### Persistent Left Sidebar
 
-A thin vertical band on the far left that **remains visible from Section 2 onward** (once the product UI appears, it never leaves).
+A thin vertical band on the left side **inside the product frame** that **remains visible from Section 2 onward** (once the product UI appears, it never leaves until the epilogue).
 
 **Specifications (from `docs/style_guide.md` Section 6):**
 - Width: **56px** (thin, icon-only)
 - Background: `var(--gradient-sidebar)` — `linear-gradient(180deg, #1A1F2E 0%, #0F172A 100%)`
-- Position: fixed, left edge, full viewport height
-- z-index: high enough to stay above content
+- Position: absolute within the product frame, left edge, full height of the product frame
+- z-index: high enough to stay above content within the product frame
 
 **Contents (top to bottom):**
 
@@ -45,13 +45,13 @@ A thin vertical band on the far left that **remains visible from Section 2 onwar
 - Logo at top, avatar below, settings further down, exit pinned to bottom
 
 **Sidebar entrance animation:**
-- During Section 2 (transition), the sidebar slides in from the left (translateX(-56px) → translateX(0))
-- Synchronized with Section 2's scroll progress
+- During Section 2 (transition), the sidebar slides in from the left within the product frame (translateX(-56px) → translateX(0))
+- Synchronized with Section 2's scroll progress (aligned with the product frame's fade-in at progress 0.4–0.8)
 
 ### Section 3 — Welcome Screen (`section-welcome`, 100vh)
 
 **Content:**
-The entire main area (right of sidebar, i.e., `margin-left: 56px`) shows a single centered message:
+The main area inside the product frame (right of sidebar, i.e., sidebar width offset) shows a single centered message:
 
 > **Welcome back, [Name]**
 
@@ -60,7 +60,7 @@ Where `[Name]` is replaced by the `recipientName` variable defined in Part 1.
 **Styling:**
 - Font: Hero/Narrative size (48px, weight 600)
 - Color: `var(--text-primary)`
-- Centered horizontally and vertically in the main area
+- Centered horizontally and vertically within the product frame's main area
 
 **Animation:**
 - Fades in as Section 3 progress goes from 0.0 → 0.3

@@ -273,3 +273,44 @@ All icons must be inline SVGs to maintain zero-dependency status.
 | Folder | File tree | Filled, subtle color |
 | File | File tree | Line icon |
 | Pulsing dot | "Editing" indicator | Animated circle |
+
+---
+
+## 9. Product Frame & Dark Backdrop
+
+The product demo (Sections 2–10) is presented as a centered window floating on a dark background, creating a "showcase" or "stage" aesthetic. This gives the product a premium, presentation-quality feel — like a keynote demo.
+
+### Dark Backdrop
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--bg-dark-backdrop` | `#0D1117` | Full-viewport background behind the product frame |
+
+The dark backdrop:
+- Covers the entire viewport (`position: fixed; inset: 0`)
+- Is invisible during the prologue (opacity 0) and fades in during Section 2
+- Fades back out during the epilogue (Section 11) as the background returns to `var(--bg-primary)`
+- z-index: below the product frame, above the scroll sections
+
+### Product Frame
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--frame-max-width` | `1280px` | Maximum width of the product frame |
+| `--frame-max-height` | `800px` | Maximum height of the product frame |
+| `--frame-width` | `min(90vw, var(--frame-max-width))` | Responsive width |
+| `--frame-height` | `min(85vh, var(--frame-max-height))` | Responsive height |
+| `--frame-radius` | `var(--radius-lg)` (16px) | Border radius for the floating-window feel |
+| `--frame-shadow` | `0 0 80px rgba(96, 165, 250, 0.08), 0 0 40px rgba(0, 0, 0, 0.3)` | Soft glow + shadow to lift frame off dark background |
+
+The product frame:
+- Background: `var(--bg-primary)` — the same warm off-white used in the prologue
+- Centered both horizontally and vertically in the viewport (`position: fixed`)
+- `overflow: hidden` to contain all child elements (sidebar, workspace, panels)
+- All product UI (sidebar, dashboard, workspace, etc.) lives **inside** this frame
+- The sidebar (56px) is positioned within the frame, not the viewport edge
+- Starts invisible (`opacity: 0`) and fades in during Section 2's transition
+- Fades out during the epilogue transition (end of Section 10 / start of Section 11)
+
+### Visual Flow Summary
+```
+Light background (Prologue) → Dark backdrop + Product frame (Demo) → Light background (Epilogue)
+```

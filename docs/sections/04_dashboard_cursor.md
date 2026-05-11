@@ -10,7 +10,7 @@ Build the dashboard page (the main app screen the user sees after welcome) and t
 
 ### Section 4 — Dashboard (`section-dashboard`, 100vh)
 
-The main area (right of sidebar) splits into **top and bottom halves**.
+The main area inside the product frame (right of sidebar) splits into **top and bottom halves**.
 
 **Top Half — "Your workspaces"**
 
@@ -93,3 +93,4 @@ Cursor specifications (from style guide):
 - Do NOT build the Research workspace layout — that's Part 5
 - The cursor component should be **reusable** — Parts 5 and 6 will move it to new positions
 - Dashboard cards are NOT clickable by the user — only the animated cursor "clicks"
+- The cursor should be positioned within the product frame's coordinate system, not the viewport

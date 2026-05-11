@@ -50,20 +50,25 @@ Implement the opening narrative that sets up the problem before the product appe
 
 - **Content:** No new text
 - **Animation:**
-  - Any remaining text fades out
-  - The background transitions from full-screen to reveal the product chrome (sidebar appears — this is a cue for Part 3)
-  - This section acts as a "bridge" — by the end of its scroll, the sidebar should be visible
+  - Any remaining text fades out (progress 0.0–0.3)
+  - The page background transitions from light (`var(--bg-primary)`) to dark (`var(--bg-dark-backdrop)` / `#0D1117`) (progress 0.2–0.6)
+  - The **product frame** fades in — a centered, rounded-corner window with a light background, floating on the dark backdrop (progress 0.4–0.8)
+  - The product frame should feel like a laptop screen or app window appearing in a dark showcase environment
+  - By the end of this section, the dark backdrop is fully visible and the product frame is fully opaque
+  - This section acts as a "bridge" — by the end of its scroll, the product frame (with sidebar inside) should be visible
 
 ## Styling Reference
 
-- Text color: `var(--text-primary)` for main text
-- Background: `var(--bg-primary)` or `var(--gradient-subtle)` for a very subtle gradient
+- Text color: `var(--text-primary)` for main text (Sections 0.0–1)
+- Background: `var(--bg-primary)` or `var(--gradient-subtle)` for Sections 0.0–1
 - Text should be centered both horizontally and vertically in the viewport
 - Use `position: sticky; top: 0;` or `position: fixed` patterns so text stays centered while scrolling controls opacity
 - Font: Hero/Narrative level from style guide (48px, weight 600, line-height 1.2, letter-spacing -0.02em)
 - Quotes can use a slightly smaller size (e.g., Body or H2) with italic styling for contrast
+- **Section 2 transition colors:** Background animates from `var(--bg-primary)` → `var(--bg-dark-backdrop)`. See `docs/style_guide.md` Section 9 for product frame tokens.
 
 ## What NOT to Build
 
 - Do NOT build the sidebar — that's Part 3
-- Do NOT add any product UI — only the narrative text
+- Do NOT add any product UI content — only the narrative text and the background/frame transitions
+- The product frame container itself is built in Part 1 (foundation) — Part 2 only animates its entrance
