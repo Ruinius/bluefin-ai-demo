@@ -130,7 +130,7 @@ Three levels of elevation to create depth hierarchy:
 - Background: `var(--gradient-sidebar)`
 - Icons: **20px**, white, `opacity: 0.7` → `1.0` on hover
 - Logo: top, 28px mark
-- Avatar: 32px circle, 2px white border
+- Avatar: (Removed)
 - Spacing between items: `var(--space-5)`
 - Transition: `opacity 0.2s ease`
 
@@ -259,8 +259,7 @@ All icons must be inline SVGs to maintain zero-dependency status.
 | Icon | Usage | Style |
 |------|-------|-------|
 | Bluefin logo | Sidebar top | Custom mark, ocean gradient |
-| Settings (gear) | Sidebar | Line icon, 20px |
-| Exit / logout | Sidebar bottom | Line icon, 20px |
+| Settings (gear) | Sidebar bottom | Line icon, 20px |
 | Search (magnifying glass) | Search bar | Line icon, 16px |
 | Blank workspace | Template card | Minimal, line style |
 | Research (magnifying glass + doc) | Template card | Line/filled hybrid |

@@ -88,16 +88,16 @@ From this point, the **product frame** — a centered, rounded-corner window on 
 A thin vertical band on the left side **inside the product frame** containing (top to bottom):
 
 - **Bluefin logo** (top)
-- **User avatar** — small circular profile picture
-- **Settings icon** — gear/cog widget
-- **Exit button** — bottom of sidebar
+- **User avatar** — (Removed to simplify UI)
+- **Settings icon** — gear/cog widget (Moved to bottom)
+- **Exit button** — (Removed)
 
 #### Section 3 — Welcome Screen
 → See [Part 3](sections/03_sidebar_welcome.md)
 
 > **Welcome back, [Name]**
 
-`[Name]` is a customizable variable (`const recipientName = "Sarah";`).
+`[Name]` is dynamic based on the filename (e.g., "index" if served as `index.html`).
 
 #### Section 4 — Dashboard
 → See [Part 4](sections/04_dashboard_cursor.md)
