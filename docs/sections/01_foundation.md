@@ -49,9 +49,9 @@ A single `index.html` file containing:
    - `overflow: hidden` on the product frame to contain all child elements
    - See `docs/style_guide.md` Section 9 for exact tokens
 
-8. **Scroll engine (JavaScript)** — a `scroll` event listener on `window` that:
+8. **Scroll engine (JavaScript)** — a virtual scroll system that intercepts `wheel` and `keydown` events to normalize input across devices (mouse, touchpad, keyboard):
    - Determines which section is currently in view
-   - Calculates a `progress` value (0.0 → 1.0) for each section based on how far the user has scrolled through it
+   - Calculates a `progress` value (0.0 → 1.0) for each section based on the interpolated scroll position
    - Exposes a function like `getProgress(sectionId)` that other parts can call
    - All animations must be **reversible** — scrolling up plays them backwards
 

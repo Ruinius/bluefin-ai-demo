@@ -91,6 +91,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            overflow: hidden; /* Prevent native scrolling for normalized experience */
         }
 
         /* Typography Classes based on Type Scale */
@@ -1064,6 +1065,10 @@
 
         document.getElementById('welcome-name').textContent = recipientName;
 
+        // Virtual scroll variables
+        let targetScroll = 0;
+        let currentScroll = 0;
+
         const docsPathEl = document.getElementById('docs-path');
         if (docsPathEl) {
             docsPathEl.textContent = `${recipientName}/Drive/d/1aBcDeFgHiJkLmNoP...`;
@@ -1095,7 +1100,7 @@
         }
 
         function calculateScrollProgress() {
-            const scrollY = window.scrollY;
+            const scrollY = currentScroll; // Use virtual scroll position
             const windowHeight = window.innerHeight;
 
             for (const sectionId in sectionProgress) {
@@ -2042,12 +2047,67 @@
 
 
 
-        window.addEventListener('scroll', () => {
-            requestAnimationFrame(calculateScrollProgress);
-        }, { passive: true });
+        // Calculate max scroll
+        let maxScroll = 0;
+        function updateMaxScroll() {
+            // Calculate total height of all sections
+            maxScroll = Array.from(document.querySelectorAll('div[id^="section-"]'))
+                             .reduce((acc, el) => acc + el.offsetHeight, 0) - window.innerHeight;
+        }
+        updateMaxScroll();
+        window.addEventListener('resize', updateMaxScroll);
 
-        // Initial calculation
-        calculateScrollProgress();
+        // Wheel event listener for normalized scrolling
+        window.addEventListener('wheel', (e) => {
+            // Prevent default scroll behavior
+            e.preventDefault();
+            
+            // Normalize delta
+            const direction = Math.sign(e.deltaY);
+            const step = window.innerHeight * 0.4; // 40% of viewport per scroll action
+            
+            targetScroll += direction * step;
+            targetScroll = Math.min(Math.max(targetScroll, 0), maxScroll);
+        }, { passive: false });
+
+        // Keyboard event listener
+        window.addEventListener('keydown', (e) => {
+            let step = 0;
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                step = window.innerHeight * 0.4;
+                e.preventDefault();
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                step = -window.innerHeight * 0.4;
+                e.preventDefault();
+            } else if (e.key === 'Home') {
+                targetScroll = 0;
+                e.preventDefault();
+            } else if (e.key === 'End') {
+                targetScroll = maxScroll;
+                e.preventDefault();
+            }
+            
+            if (step !== 0) {
+                targetScroll += step;
+                targetScroll = Math.min(Math.max(targetScroll, 0), maxScroll);
+            }
+        });
+
+        // Smooth scroll loop
+        function smoothScroll() {
+            const diff = targetScroll - currentScroll;
+            if (Math.abs(diff) > 0.1) {
+                currentScroll += diff * 0.08; // Easing factor
+                calculateScrollProgress();
+            } else if (currentScroll !== targetScroll) {
+                currentScroll = targetScroll;
+                calculateScrollProgress();
+            }
+            requestAnimationFrame(smoothScroll);
+        }
+        
+        // Start the loop
+        smoothScroll();
     </script>
 </body>
 </html>
