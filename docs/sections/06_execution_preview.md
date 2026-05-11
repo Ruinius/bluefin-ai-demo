@@ -14,31 +14,40 @@ A sequence of animated interactions on the **Plan tab** (right panel) and the **
 
 **Animation sequence (driven by scroll progress):**
 
-1. **Progress 0.0–0.3 — Edit Final Output:**
-   - Cursor moves to the "Final Output: Google Doc" line in the plan
-   - Cursor clicks, a text editing caret appears
-   - Text is appended character by character: **" → Save to Google Drive /Projects/US-Snacks-2026/"**
-   - Final line reads: "Final Output: Google Doc → Save to Google Drive /Projects/US-Snacks-2026/"
-   - Typing speed: ~40–60ms per character (from style guide)
+1. **Progress 0.0–0.2 — Edit Step 1:**
+   - "Save to Google Drive..." text is already present after Google Docs.
+   - Cursor moves to the "Step 1" box.
+   - Cursor clicks, a text editing caret appears.
+   - Text is appended character by character: **" Special focus on Campbell and General Mills"**.
+   - Typing speed: ~40–60ms per character.
 
-2. **Progress 0.3–0.5 — Type command:**
-   - Cursor moves to a command/chat input area at the bottom of the plan area
+2. **Progress 0.2–0.4 — Add Step 2:**
+   - Cursor moves between "Step 1" and "Step 2" and stops.
+   - A new "Step 2" box appears.
+   - Cursor moves to the new Step 2 box.
+   - Text is typed: **"save all the reports you find in the input folder"**.
+
+3. **Progress 0.4–0.6 — Type command:**
+   - Cursor moves slowly to a command/chat input area at the bottom of the plan area.
    - Text is typed character by character:
      > "execute for the US snacks industry in 2026"
-   - Same typing speed as above
-   - Input area styling: similar to search bar — `var(--bg-secondary)`, `var(--radius-sm)`, subtle border
+   - Same typing speed as above.
+   - Input area styling: similar to search bar — `var(--bg-secondary)`, `var(--radius-sm)`, subtle border.
 
-3. **Progress 0.5–0.7 — Agent starts working:**
-   - The AI agent panel (left side) comes alive
-   - A spinner or pulsing animation appears
-   - Status messages appear sequentially in the chat area:
+4. **Progress 0.6–0.8 — Execute command:**
+   - Simulates the user hitting enter.
+   - Input/command area becomes blank.
+   - A text bubble appears above "Agent is working" with the text "execute for the US snacks industry in 2026".
+
+5. **Progress 0.8–1.0 — Agent starts working:**
+   - The AI agent panel (left side) comes alive.
+   - A spinner or pulsing animation appears.
+   - Status messages appear sequentially (slowly, to simulate hard work):
      - "Searching databases..."
      - "Reading analyst reports..."
      - "Analyzing market data..."
-   - Each message fades in with slight delay
-   - The pulse/spinner should feel alive and active
-
-4. **Progress 0.7–1.0:** Agent continues working (activity carries into next sections)
+   - Each message fades in with slight delay.
+   - The pulse/spinner should feel alive and active.
 
 ---
 

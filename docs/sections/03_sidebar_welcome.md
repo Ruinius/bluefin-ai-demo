@@ -25,27 +25,16 @@ A thin vertical band on the left side **inside the product frame** that **remain
    - Styled with ocean gradient or white
    - Inline SVG
 
-2. **User avatar**
-   - 32px circle
-   - 2px white border
-   - Can be a placeholder circle with initials or a generic silhouette
-
-3. **Settings icon** (gear/cog)
+2. **Settings icon** (gear/cog, at bottom of sidebar)
    - 20px inline SVG, white
    - `opacity: 0.7` at rest → `1.0` on hover
    - Transition: `opacity 0.2s ease`
 
-4. **Exit button** (at bottom of sidebar)
-   - 20px inline SVG, white
-   - `opacity: 0.7` → `1.0` on hover
-   - Transition: `opacity 0.2s ease`
-
 **Layout:**
-- Items spaced with `var(--space-5)` (24px) between them
-- Logo at top, avatar below, settings further down, exit pinned to bottom
+- Logo at top, settings pinned to bottom
 
 **Sidebar entrance animation:**
-- During Section 2 (transition), the sidebar slides in from the left within the product frame (translateX(-56px) → translateX(0))
+- During Section 2 (transition), the sidebar fades in within the product frame (`opacity 0` → `1`)
 - Synchronized with Section 2's scroll progress (aligned with the product frame's fade-in at progress 0.4–0.8)
 
 ### Section 3 — Welcome Screen (`section-welcome`, 100vh)
@@ -58,7 +47,7 @@ The main area inside the product frame (right of sidebar, i.e., sidebar width of
 Where `[Name]` is replaced by the `recipientName` variable defined in Part 1.
 
 **Styling:**
-- Font: Hero/Narrative size (48px, weight 600)
+- Font: Hero/Narrative size (32px, weight 600)
 - Color: `var(--text-primary)`
 - Centered horizontally and vertically within the product frame's main area
 

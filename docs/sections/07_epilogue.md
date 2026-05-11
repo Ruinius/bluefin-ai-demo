@@ -41,7 +41,7 @@ Centered on screen, same style as the prologue:
 
 **Styling:**
 
-- Font: Hero/Narrative size (48px, weight 600, line-height 1.2)
+- Font: Hero/Narrative size (32px, weight 600, line-height 1.2)
 - Color: `var(--text-primary)`
 - Centered both horizontally and vertically on the viewport
 - Background: `var(--bg-primary)` — light, matching the prologue aesthetic

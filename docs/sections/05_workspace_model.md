@@ -19,22 +19,20 @@ The main area inside the product frame (right of sidebar) splits into **left and
 
 Contents (top to bottom):
 
-1. **Model selector** at the top
-   - Styled like a select/dropdown trigger
-   - Shows currently selected model name + chevron-down icon
-   - Default text: **"MiniMax M2.7"**
-   - Styling: `var(--bg-secondary)` background, `var(--radius-sm)` corners, `padding: 10px 16px`
-   - The dropdown itself is built in Section 7 (below)
-
-2. **Pause button**
-   - Circular pause icon (filled circle with two vertical bars)
-   - Below or beside the model selector
-   - Not interactive — just visual
-
-3. **Chat/status area**
-   - Takes remaining vertical space
+1. **Chat/status area**
+   - Takes upper vertical space
    - Initially empty or shows a subtle "Ready" state
-   - This area will be animated in Part 6
+
+2. **Command/Chat Input Area**
+   - Present from the start of this section (no fade in).
+   - Input field for user commands.
+   - The pause button is located at the bottom right edge of this input area.
+
+3. **Model selector**
+   - Moved to the bottom of the left panel, below the command/chat input area.
+   - Shows currently selected model name + chevron-down icon.
+   - Default text: **"MiniMax M2.7"**.
+   - The dropdown itself is built in Section 7 (below).
 
 **Right Half — Work Area with Tabs**
 
@@ -56,12 +54,13 @@ Contents (top to bottom):
 A structured plan document displayed in the work area:
 
 - **"Overall Instructions"** — section header (H2, 24px, weight 600)
+- **Detailed instruction block:** "You are a senior research analyst..." placed on the same level as the steps.
 - **Step 1:** Collect and analyze market data from industry databases and analyst reports
 - **Step 2:** Identify key players, market trends, and competitive dynamics
 - **Step 3:** Synthesize findings into an executive summary with charts and data tables
 - **Final Output:** Google Doc
 
-Each step should be styled as a clean list item with step number bolded. Use Body text size (15px). Add comfortable spacing between steps.
+Each plan item (instructions and steps) should be wrapped in distinct gray containers/textboxes to visually indicate they are editable.
 
 **Workspace entrance animation:**
 

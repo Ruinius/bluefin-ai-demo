@@ -139,9 +139,12 @@ Cursor selects **MiniMax M2.7**.
 #### Section 8 — Editing & Execution
 → See [Part 6](sections/06_execution_preview.md)
 
-1. Cursor edits "Final Output" to add Google Drive path
-2. Types "execute for the US snacks industry in 2026"
-3. Agent starts working with status messages
+1. Add Google Drive save location text after Google Docs.
+2. Cursor moves to "Step 1" and adds "Special focus on Campbell and General Mills".
+3. Cursor moves between Step 1 and Step 2. A new Step 2 box appears.
+4. Cursor moves to the new Step 2 and types "save all the reports you find in the input folder".
+5. Cursor moves to the command area and types "execute for the US snacks industry in 2026".
+6. Simulates enter key; text bubble appears with command, and agent starts working with status messages.
 
 #### Section 9 — Workspace Tab
 → See [Part 6](sections/06_execution_preview.md)

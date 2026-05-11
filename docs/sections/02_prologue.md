@@ -20,7 +20,7 @@ Implement the opening narrative that sets up the problem before the product appe
 
 ### Section 0 — Opening Statement (`section-opening`, 100vh)
 
-- **Content:** Centered text (Hero/Narrative size — 48px, weight 600):
+- **Content:** Centered text (Hero/Narrative size — 32px, weight 600):
 
   > AI-native engineers have: Claude Code, Codex, Jules, OpenHands, and a dozen powerful tools.
 
@@ -63,7 +63,7 @@ Implement the opening narrative that sets up the problem before the product appe
 - Background: `var(--bg-primary)` or `var(--gradient-subtle)` for Sections 0.0–1
 - Text should be centered both horizontally and vertically in the viewport
 - Use `position: sticky; top: 0;` or `position: fixed` patterns so text stays centered while scrolling controls opacity
-- Font: Hero/Narrative level from style guide (48px, weight 600, line-height 1.2, letter-spacing -0.02em)
+- Font: Hero/Narrative level from style guide (32px, weight 600, line-height 1.2, letter-spacing -0.02em)
 - Quotes can use a slightly smaller size (e.g., Body or H2) with italic styling for contrast
 - **Section 2 transition colors:** Background animates from `var(--bg-primary)` → `var(--bg-dark-backdrop)`. See `docs/style_guide.md` Section 9 for product frame tokens.
 
