@@ -8,10 +8,10 @@
         :root {
             /* 1. Color Palette */
             /* Base Colors */
-            --bg-primary: #FAFBFD;
+            --bg-primary: #FAF9F7;
             --bg-secondary: #F0F2F5;
             --bg-sidebar: #1A1F2E;
-            --text-primary: #1A1A2E;
+            --text-primary: #1A1A1A;
             --text-secondary: #6B7280;
             --text-inverse: #FFFFFF;
             --border: #E5E7EB;
@@ -22,6 +22,7 @@
             --blue-dark: #1E40AF;
             --violet: #7C3AED;
             --violet-light: #A78BFA;
+            --crimson: #c41e3a;
 
             /* Gradient Definitions */
             --gradient-ocean: linear-gradient(135deg, #60A5FA 0%, #3B82F6 40%, #7C3AED 100%);
@@ -35,7 +36,8 @@
 
             /* 2. Typography */
             /* Font Stack */
-            --font-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Inter', Roboto, Helvetica, Arial, sans-serif;
+            --font-primary: 'Source Serif 4', Georgia, 'Times New Roman', Times, serif;
+            --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', Times, serif;
             --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
 
             /* 3. Spacing System */
@@ -88,6 +90,7 @@
 
         /* Typography Classes based on Type Scale */
         .text-hero {
+            font-family: var(--font-heading);
             font-size: 48px;
             font-weight: 600;
             line-height: 1.2;
@@ -95,6 +98,7 @@
         }
 
         .text-h1 {
+            font-family: var(--font-heading);
             font-size: 32px;
             font-weight: 600;
             line-height: 1.3;
@@ -102,6 +106,7 @@
         }
 
         .text-h2 {
+            font-family: var(--font-heading);
             font-size: 24px;
             font-weight: 600;
             line-height: 1.35;
@@ -135,6 +140,34 @@
             font-weight: 400;
             line-height: 1.5;
             letter-spacing: 0;
+        }
+
+        .drop-cap::first-letter {
+            font-family: var(--font-heading);
+            font-size: 3em;
+            line-height: 0.8;
+            float: left;
+            margin-right: 0.1em;
+            margin-top: 0.1em;
+            color: var(--crimson);
+            font-weight: 600;
+        }
+
+        .pull-quote {
+            font-family: var(--font-heading);
+            font-size: 1.5em;
+            font-style: italic;
+            color: var(--crimson);
+            border-left: 4px solid var(--crimson);
+            padding-left: 16px;
+            margin: 24px 0;
+        }
+
+        .elegant-hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--crimson), rgba(0, 0, 0, 0));
+            margin: 40px 0;
         }
 
         @keyframes bounce {
@@ -187,7 +220,7 @@
             align-items: center;
             padding-top: var(--space-5);
             padding-bottom: var(--space-5);
-            transform: translateX(-56px);
+            opacity: 0;
             pointer-events: none;
             box-sizing: border-box;
         }
@@ -491,25 +524,46 @@
         </div>
 
         <!-- Section 0: Opening Statement -->
-        <div id="content-opening" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 800px;">
-            AI-native engineers have: Jules, Codex, Claude Code, OpenHands, and a dozen powerful tools.
+        <div id="content-opening" class="text-hero drop-cap" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 800px;">
+            AI-native engineers have:
+            <span style="color: #7C3AED; display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                Jules
+            </span>,
+            <span style="color: #000000; display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                Codex
+            </span>,
+            <span style="color: #D97757; display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM11 19.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.22.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.51c-.32-.78-.9-1.45-1.63-1.92L15 14v-2c0-.55-.45-1-1-1h-2v-2h2c.55 0 1-.45 1-1V6.83C16.92 8.04 18 10.39 18 13c0 1.74-.53 3.36-1.5 4.71z"/></svg>
+                Claude Code
+            </span>,
+            <span style="color: #F59E0B; display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                OpenHands
+            </span>,
+            and a dozen powerful tools.
         </div>
 
         <!-- Section 1: The Problem -->
         <div id="content-problem" style="text-align: center; position: absolute; width: 80%; max-width: 900px; display: flex; flex-direction: column; gap: var(--space-6);">
             <div id="problem-header" class="text-hero" style="opacity: 0;">AI-native business folks are saying:</div>
 
-            <div id="problem-quote-1" class="text-h2" style="font-style: italic; color: var(--text-primary); opacity: 0;">
+            <hr class="elegant-hr" id="problem-hr-1" style="opacity: 0; width: 50%; align-self: center; margin: 0;" />
+
+            <div id="problem-quote-1" class="pull-quote" style="text-align: left; opacity: 0; align-self: center; width: fit-content; max-width: 100%;">
                 "What is a markdown? I need a Google Docs or at least a DOCX."
             </div>
 
-            <div id="problem-quote-2" class="text-h2" style="font-style: italic; color: var(--text-primary); opacity: 0;">
+            <div id="problem-quote-2" class="pull-quote" style="text-align: left; opacity: 0; align-self: center; width: fit-content; max-width: 100%;">
                 "I just spent two hours trying to set up a MCP server for Databricks. What is MCP?"
             </div>
 
-            <div id="problem-quote-3" class="text-h2" style="font-style: italic; color: var(--text-primary); opacity: 0;">
+            <div id="problem-quote-3" class="pull-quote" style="text-align: left; opacity: 0; align-self: center; width: fit-content; max-width: 100%;">
                 "Holy crap, running Claude for an hour on my presentation cost $150."
             </div>
+
+            <hr class="elegant-hr" id="problem-hr-2" style="opacity: 0; width: 50%; align-self: center; margin: 0;" />
         </div>
 
     </div>
@@ -530,14 +584,8 @@
                     </linearGradient>
                 </defs>
                 <path d="M14 2C7.37258 2 2 7.37258 2 14C2 20.6274 7.37258 26 14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2Z" fill="url(#logo-grad)"/>
-                <path d="M18 10L10 18M10 10L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 8h5a4 4 0 0 1 0 8h-5v-8z M10 12h4 M10 16h4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-        </div>
-        <div class="sidebar-item">
-            <!-- Avatar -->
-            <div class="sidebar-avatar">
-                S
-            </div>
         </div>
         <div class="sidebar-item">
             <!-- Settings -->
@@ -558,7 +606,7 @@
 
     <!-- Welcome Container (inside product frame) -->
     <div id="welcome-container" style="position: absolute; top: 0; left: 56px; width: calc(100% - 56px); height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9; pointer-events: none;">
-        <div id="content-welcome" class="text-hero" style="color: var(--text-primary); opacity: 0; text-align: center;">
+        <div id="content-welcome" class="text-hero drop-cap" style="color: var(--text-primary); opacity: 0; text-align: center;">
             Welcome back, <span id="welcome-name"></span>
         </div>
     </div>
@@ -647,7 +695,34 @@
         <!-- Left Panel: AI Agent -->
         <div id="agent-panel" style="width: 38%; height: 100%; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: var(--space-5); box-sizing: border-box; background: var(--bg-primary); position: relative;">
 
-            <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4);">
+            <!-- Chat/Status Area (To be populated in Part 6) -->
+            <div id="agent-chat-area" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: var(--space-3); padding-top: var(--space-4); overflow-y: hidden; position: relative;">
+
+                <!-- Section 8 Agent Activity -->
+                <div id="agent-activity" style="display: flex; flex-direction: column; gap: var(--space-3); opacity: 0; transition: opacity 0.3s ease;">
+                    <div style="display: flex; align-items: center; gap: var(--space-2);">
+                        <div id="agent-spinner" style="width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--blue-mid); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                        <span class="text-body" style="color: var(--blue-mid); font-weight: 500;">Agent is working</span>
+                    </div>
+                    <div id="agent-msg-1" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Searching databases...</div>
+                    <div id="agent-msg-2" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Reading analyst reports...</div>
+                    <div id="agent-msg-3" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Analyzing market data...</div>
+                    <div id="agent-msg-4" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Writing Executive Summary...</div>
+                    <div id="agent-msg-5" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Generating market analysis...</div>
+                    <div id="agent-msg-6" class="text-caption" style="color: var(--text-secondary); opacity: 0; transform: translateY(10px);">Formatting document...</div>
+                </div>
+
+            </div>
+
+            <!-- Input Area for Section 8 -->
+            <div id="command-input-area" style="width: 100%; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; display: flex; align-items: center; gap: var(--space-2); opacity: 0; margin-top: var(--space-4); box-sizing: border-box;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--blue-mid);">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+                <span id="command-typing-text" class="text-body" style="color: var(--text-primary);"></span><span id="command-caret" class="typing-caret" style="opacity: 0;">|</span>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-4);">
                 <!-- Model Selector Trigger -->
                 <div id="model-selector-trigger" style="background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 10px 16px; display: flex; align-items: center; gap: var(--space-2); border: 1px solid transparent;">
                     <span id="selected-model" class="text-body" style="font-weight: 500;">MiniMax M2.7</span>
@@ -800,18 +875,11 @@
                 <div id="content-plan" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: var(--space-6); box-sizing: border-box; opacity: 1;">
                     <div class="text-h2" style="margin-bottom: var(--space-5);">Overall Instructions</div>
                     <div style="display: flex; flex-direction: column; gap: var(--space-4);">
-                        <div class="plan-step text-body"><span style="font-weight: 600;">Step 1:</span> Collect and analyze market data from industry databases and analyst reports</div>
-                        <div class="plan-step text-body"><span style="font-weight: 600;">Step 2:</span> Identify key players, market trends, and competitive dynamics</div>
-                        <div class="plan-step text-body"><span style="font-weight: 600;">Step 3:</span> Synthesize findings into an executive summary with charts and data tables</div>
-                        <div class="plan-step text-body" id="plan-final-output"><span style="font-weight: 600;">Final Output:</span> Google Doc<span id="plan-typing-text"></span><span id="plan-caret" class="typing-caret" style="opacity: 0;">|</span></div>
-                    </div>
-
-                    <!-- Input Area for Section 8 -->
-                    <div id="command-input-area" style="position: absolute; bottom: var(--space-6); left: var(--space-6); width: calc(100% - 2 * var(--space-6)); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; display: flex; align-items: center; gap: var(--space-2); opacity: 0;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--blue-mid);">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                        <span id="command-typing-text" class="text-body" style="color: var(--text-primary);"></span><span id="command-caret" class="typing-caret" style="opacity: 0;">|</span>
+                        <div class="plan-step text-body" style="background: var(--bg-secondary); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">You are a senior research analyst...</div>
+                        <div class="plan-step text-body" style="background: var(--bg-secondary); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);"><span style="font-weight: 600;">Step 1:</span> Collect and analyze market data from industry databases and analyst reports</div>
+                        <div class="plan-step text-body" style="background: var(--bg-secondary); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);"><span style="font-weight: 600;">Step 2:</span> Identify key players, market trends, and competitive dynamics</div>
+                        <div class="plan-step text-body" style="background: var(--bg-secondary); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);"><span style="font-weight: 600;">Step 3:</span> Synthesize findings into an executive summary with charts and data tables</div>
+                        <div class="plan-step text-body" id="plan-final-output" style="background: var(--bg-secondary); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);"><span style="font-weight: 600;">Final Output:</span> Google Doc<span id="plan-typing-text"></span><span id="plan-caret" class="typing-caret" style="opacity: 0;">|</span></div>
                     </div>
                 </div>
 
@@ -891,15 +959,19 @@
 
 
                 <!-- Preview Tab Content (Part 6) -->
-                <div id="content-preview" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: var(--space-5); box-sizing: border-box; opacity: 0; pointer-events: none; background: var(--bg-secondary); overflow-y: auto;">
+                <div id="content-preview" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: var(--space-5); box-sizing: border-box; opacity: 0; pointer-events: none; background: var(--bg-secondary); overflow: hidden;">
 
-                    <div class="google-docs-page" style="background: white; border-radius: 4px; box-shadow: var(--shadow-high); max-width: 800px; margin: 0 auto; min-height: 800px;">
+                    <div class="google-docs-page" style="background: white; border-radius: 4px; box-shadow: var(--shadow-high); max-width: 800px; margin: 0 auto; min-height: 800px; display: flex; flex-direction: column;">
 
                         <!-- Simplified Toolbar -->
-                        <div class="docs-toolbar" style="background: #F8F9FA; border-bottom: 1px solid #E2E8F0; padding: 8px 16px; border-radius: 4px 4px 0 0; display: flex; gap: var(--space-4);">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg>
+                        <div class="docs-toolbar" style="background: #F8F9FA; border-bottom: 1px solid #E2E8F0; padding: 12px 16px; border-radius: 4px 4px 0 0; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);">
+                            <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="#4285F4"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                                <span class="text-body" style="color: var(--text-secondary); font-size: 13px;" id="docs-breadcrumb"></span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                <span class="text-caption" style="color: var(--blue-mid); cursor: pointer; pointer-events: auto;">Go to Google Docs to edit directly</span>
+                            </div>
                         </div>
 
                         <!-- Page Content -->
@@ -929,20 +1001,20 @@
 
     <!-- Fixed Epilogue Container for Part 7 -->
     <div id="epilogue-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 20; pointer-events: none;">
-        <div id="content-closing-1" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
+        <div id="content-closing-1" class="text-hero drop-cap" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
             A business-first AI agent
         </div>
-        <div id="content-closing-2" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
+        <div id="content-closing-2" class="text-hero drop-cap" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
             Cost conscious with the right AI model for every task
         </div>
-        <div id="content-closing-3" class="text-hero" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
+        <div id="content-closing-3" class="text-hero drop-cap" style="text-align: center; position: absolute; opacity: 0; width: 80%; max-width: 900px; color: var(--text-primary);">
             On-prem and hyper-secure deployments available
         </div>
         <!-- End State: All messages stacked + GitHub star link -->
         <div id="content-closing-end" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-6); opacity: 0; width: 80%; max-width: 900px; text-align: center;">
-            <div class="text-hero" style="color: var(--text-primary);">A business-first AI agent</div>
-            <div class="text-hero" style="color: var(--text-primary);">Cost conscious with the right AI model for every task</div>
-            <div class="text-hero" style="color: var(--text-primary);">On-prem and hyper-secure deployments available</div>
+            <div class="text-hero drop-cap" style="color: var(--text-primary); margin-bottom: 24px;">A business-first AI agent</div>
+            <div class="text-hero drop-cap" style="color: var(--text-primary); margin-bottom: 24px;">Cost conscious with the right AI model for every task</div>
+            <div class="text-hero drop-cap" style="color: var(--text-primary); margin-bottom: 24px;">On-prem and hyper-secure deployments available</div>
             <div class="text-caption" style="margin-top: var(--space-7); color: var(--text-secondary); pointer-events: auto;">
                 If you liked this presentation, please let me know by giving a star to:
                 <a href="https://github.com/Ruinius/bluefin-ai-demo" target="_blank" rel="noopener noreferrer" style="color: var(--blue-mid); text-decoration: underline; pointer-events: auto;">github.com/Ruinius/bluefin-ai-demo</a>
@@ -971,10 +1043,11 @@
     <div id="section-closing-3" style="height: 100vh;"></div>
     <div id="section-closing-end" style="height: 100vh;"></div>
     <script>
-        const recipientName = "Sarah";
-
+        const pathName = window.location.pathname.split('/').pop().split('.')[0];
+        const recipientName = pathName ? pathName.charAt(0).toUpperCase() + pathName.slice(1) : "Index";
 
         document.getElementById('welcome-name').textContent = recipientName;
+        document.getElementById('docs-breadcrumb').textContent = `${recipientName} / Drive / d / 1aBcDeFgHiJkLmNoP...`;
 
         // Expose section progress values globally
 
@@ -1084,8 +1157,14 @@
 
             let globalProbOpacity = mapRange(pProb, 0.85, 1.0, 1, 0);
 
+            const hr1 = document.getElementById('problem-hr-1');
+            const hr2 = document.getElementById('problem-hr-2');
+
             if (header) {
                 header.style.opacity = mapRange(pProb, 0.05, 0.2, 0, 1) * globalProbOpacity;
+            }
+            if (hr1) {
+                hr1.style.opacity = mapRange(pProb, 0.05, 0.2, 0, 1) * globalProbOpacity;
             }
             if (q1) {
                 q1.style.opacity = mapRange(pProb, 0.2, 0.35, 0, 1) * globalProbOpacity;
@@ -1095,6 +1174,9 @@
             }
             if (q3) {
                 q3.style.opacity = mapRange(pProb, 0.5, 0.65, 0, 1) * globalProbOpacity;
+            }
+            if (hr2) {
+                hr2.style.opacity = mapRange(pProb, 0.5, 0.65, 0, 1) * globalProbOpacity;
             }
 
             // Section 2 — Transition: Dark backdrop + Product frame reveal
@@ -1134,11 +1216,11 @@
             const sidebar = document.getElementById('sidebar');
             if (sidebar) {
                 const pAfterTrans = getProgress('section-welcome');
-                let sidebarTranslate = -56;
+                let sidebarOpacity = 0;
                 if (pTrans > 0.4 || pAfterTrans > 0) {
-                    sidebarTranslate = pAfterTrans > 0 ? 0 : mapRange(pTrans, 0.4, 0.8, -56, 0);
+                    sidebarOpacity = pAfterTrans > 0 ? 1 : mapRange(pTrans, 0.4, 0.8, 0, 1);
                 }
-                sidebar.style.transform = `translateX(${sidebarTranslate}px)`;
+                sidebar.style.opacity = sidebarOpacity;
             }
 
             // Section 3 — Welcome Screen
@@ -1382,7 +1464,7 @@
                 const planOutputRect = planOutput ? planOutput.getBoundingClientRect() : null;
                 const commandAreaRect = commandInputArea ? commandInputArea.getBoundingClientRect() : null;
 
-                const targetX1 = planOutputRect ? planOutputRect.left + 220 : window.innerWidth / 2; // Approximate end of "Google Doc"
+                const targetX1 = planOutputRect ? planOutputRect.left + 160 : window.innerWidth / 2; // Approximate end of "Google Doc"
                 const targetY1 = planOutputRect ? planOutputRect.top + planOutputRect.height / 2 - 16 : window.innerHeight / 2;
 
                 const targetX2 = commandAreaRect ? commandAreaRect.left + 50 : window.innerWidth / 2; // Inside the input area
